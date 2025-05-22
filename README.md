@@ -1,0 +1,1 @@
+# slurpologist-app
