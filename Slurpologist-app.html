@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://freshfactory.id/media/public/testimoni/new-title-14062023-115752.png">
+    <title>Mixing Production Dashboard</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Slurp Production Dashboard - Monitor, input, dan analisa data produksi Slurp secara real-time.">
+    <meta name="keywords" content="Slurp, Production, Dashboard, Monitoring, Data, Industri, SLURPOLOGIST, SeccaStudio">
+    <meta name="author" content="SeccaStudio">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Slurp Production Dashboard">
+    <meta property="og:description" content="Dashboard monitoring produksi Slurp dengan fitur input, analisa, dan export data.">
+    <meta property="og:image" content="https://lh3.googleusercontent.com/a/ACg8ocJwWSZelSf--qgQJiOsyLq-zY9e-zCzML0LTJKjmf0f2RE2wF4=s288-c-no">
+    <meta property="og:url" content="https://slurpologist-app.firebaseapp.com/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Slurp Production Dashboard">
+    <meta name="twitter:description" content="Dashboard monitoring produksi Slurp dengan fitur input, analisa, dan export data.">
+    <meta name="twitter:image" content="https://lh3.googleusercontent.com/a/ACg8ocJwWSZelSf--qgQJiOsyLq-zY9e-zCzML0LTJKjmf0f2RE2wF4=s288-c-no">
+  
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
+        }
+        .sidebar {
+            transition: all 0.3s;
+        }
+    
+        select:disabled {
+        background-color: #f3f4f6 !important;
+        color: #1f2937 !important;    
+        opacity: 1 !important;
+
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                z-index: 10;
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .input-highlight {
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAfA0Q56zSdjzmLw954NpsIBuZceeSs1Tg",
+        authDomain: "slurpologist-app.firebaseapp.com",
+        projectId: "slurpologist-app",
+        storageBucket: "slurpologist-app.appspot.com",
+        messagingSenderId: "374699696491",
+        appId: "1:374699696491:web:15fa23d7757e8333a22c2e",
+        measurementId: "G-7KK4GVEZ7C"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    </script>
+</head>
+<body class="bg-gradient-to-br from-black to-gray-800 montserrat">
+    <!-- Login Page -->
+     
+    <div id="loginPage" class="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8 gap-8">
+    <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 sm:p-8 md:p-12 lg:p-16 mb-8 md:mb-0">
+        <div class="max-w-md w-full space-y-8 floating">
+            <div class="flex items-center justify-center mb-8">
+                <div class="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center glow-box">
+                    <i class="fas fa-atom text-3xl text-white"></i>
+                </div>
+                <h1 class="ml-4 text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 glow-text">
+                    SLURPOLOGIST
+                </h1>
+            </div>
+            
+            <h2 class="text-2xl sm:text-3xl font-bold text-center glow-text">Slurp Production Dashboard</h2>
+            
+            <p class="text-base sm:text-lg text-gray-300 text-center">
+                Pantau, input, dan analisa data produksi secara real-time dengan sistem modern, aman, dan efisien.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+                <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700 text-center">
+                    <i class="fas fa-fingerprint text-blue-400 text-2xl mb-2"></i>
+                    <p class="text-sm">Akses Aman & Mudah</p>
+                </div>
+                <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700 text-center">
+                    <i class="fas fa-shield-alt text-purple-400 text-2xl mb-2"></i>
+                    <p class="text-sm">Data Terproteksi</p>
+                </div>
+                <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700 text-center">
+                    <i class="fas fa-bolt text-yellow-400 text-2xl mb-2"></i>
+                    <p class="text-sm">Monitoring Real-Time</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full max-w-md bg-gray-900 text-white p-6 sm:p-8 rounded-lg shadow-xl border border-gray-700">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">Secure Login</h1>
+            <p class="text-gray-100 mt-2">Enter your credentials to access the system</p>
+        </div>
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-100">Email</label>
+                    <input type="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-100">Password</label>
+                    <input type="password" id="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <button type="submit" id="loginBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-400 to-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Sign in
+                    </button>
+                </div>
+                <div id="loginError" class="text-red-500 text-sm hidden"></div>
+            </form>
+    </div>
+</div>
+
+    <!-- Main App (hidden initially) -->
+    <div id="appContainer" class="hidden">
+        <!-- Sidebar -->
+        <div class="sidebar bg-gradient-to-br from-black to-gray-800 text-white w-64 min-h-screen fixed z-[999] flex flex-col justify-between">
+        <!-- Header -->
+        <div>
+            <div class="p-4 flex items-center justify-between border-b border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-industry text-2xl text-blue-400"></i>
+                    <h1 class="text-xl font-bold">SLURPOLOGIST</h1>
+                </div>
+                <button id="closeSidebar" class="text-gray-400 hover:text-white focus:outline-none sm:hidden">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="p-4">
+                <div class="space-y-2">
+                    <a href="#" id="dashboardLink" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" id="inputDataLink" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-700">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Input Data</span>
+                    </a>
+                    <a href="#" id="adminPanelLink" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-700 hidden">
+                        <i class="fas fa-cog"></i>
+                        <span>Admin Panel</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Bottom Section: Logout + Footer -->
+        <div class="p-4 space-y-4">
+            <a href="#" id="logoutLink" class="flex items-center space-x-2 p-2 rounded hover:bg-gray-700">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+            <div class="text-sm text-gray-400 border-t border-gray-700 pt-2">
+                &copy; 2025 SLURPOLOGIST <br>SeccaStudio<br>
+                All rights reserved.
+            </div>
+        </div>
+    </div>
+
+
+        <!-- Mobile Header -->
+        <div class="md:hidden bg-gray-800 text-white p-4 flex justify-between items-center">
+            <button id="menuToggle" class="text-white">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h1 class="text-xl font-bold">Slurp Monitoring</h1>
+            <div class="w-8"></div> <!-- Spacer for alignment -->
+        </div>
+
+        <!-- Main Content -->
+        <div class="md:ml-64 p-4">
+            <!-- Dashboard Page -->
+            <div id="dashboardPage">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4 sm:gap-0">
+                    <h2 class="text-2xl font-bold text-gray-100">Slurp Monitoring</h2>
+                    <div class="flex flex-wrap sm:flex-nowrap gap-2">
+                        <select id="dateRange" class="border rounded px-3 py-2 w-full sm:w-auto ">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                        <input type="date" id="selectedDate" class="border rounded px-3 py-2 w-full sm:w-auto">
+                        <select id="shiftFilter" class="border rounded px-3 py-2 w-full sm:w-auto">
+                            <option value="all">All Shifts</option>
+                            <option value="A">Shift A</option>
+                            <option value="B">Shift B</option>
+                            <option value="C">Shift C</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6" id="kpiCards">
+                    <!-- Loading state -->
+                    <div class="col-span-4 text-center py-10">
+                        <div class="inline-block loading-spinner"></div>
+                        <span class="ml-2">Loading data...</span>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Output vs Target -->
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="font-bold mb-4">Output vs Target</h3>
+                        <div class="chart-container">
+                            <canvas id="outputChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Losses Percentage -->
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="font-bold mb-4">Losses Percentage</h3>
+                        <div class="chart-container">
+                            <canvas id="lossesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mt-2 text-sm text-gray-100" id="trendOutput">Loading trend...</p> <br>
+
+                <!-- Daily Trend Chart -->
+                <div class="bg-white p-4 rounded-lg shadow mb-6">
+                    <h3 class="font-bold mb-4">Daily Production Trend</h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Data -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h3 class="font-bold mb-4">Recent Production Data</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Input (kg)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operator</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="recentDataTable">
+                                <!-- Data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Data Page (hidden initially) -->
+            <div id="inputDataPage" class="hidden">
+                <div class="bg-gray-200 p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Input Production Data</h2>
+                    <form id="inputDataForm" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Date & Time</label>
+                                <input type="text" id="currentDateTime" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100" readonly>
+                            </div>
+                            <div>
+                                <label for="shiftSelect" class="block text-sm font-medium text-gray-700">Shift</label>
+                                <select id="shiftSelect" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" disabled>
+                                    <option value="A">Shift A (06:00 - 14:00)</option>
+                                    <option value="B">Shift B (14:00 - 22:00)</option>
+                                    <option value="C">Shift C (22:00 - 06:00)</option>
+                                </select>
+                            </div>
+                                <div>
+                                    <label for="variantSelect" class="block text-sm font-medium text-gray-700">Variant</label>
+                                    <input type="text" id="variantSelect" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100" placeholder="will be filled in automatically" readonly>
+                                </div>
+                        </div>
+                        <div>
+                            <label for="inputWeight" class="block text-sm font-medium text-gray-700">Weight (kg)</label>
+                            <input type="number" id="inputWeight" min="0" step="0.01" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Enter weight in kilograms">
+                        </div>
+                        <div class="pt-2">
+                            <button type="submit" id="submitDataBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Submit Data
+                            </button>
+                        </div>
+                        <div id="inputError" class="text-red-500 text-sm hidden"></div>
+                        <div id="inputSuccess" class="text-green-500 text-sm hidden">Data submitted successfully!</div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Admin Panel Page (hidden initially) -->
+            <div id="adminPanelPage" class="hidden">
+                <div class="bg-gray-200 p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Admin Panel</h2>
+
+                    <!-- Target Management -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 border-b pb-2">Set Production Targets</h3>
+                        <form id="targetForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div>
+                                    <label for="targetDate" class="block text-sm font-medium text-gray-700">Date & Time</label>
+                                    <input  type="text" id="targetDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100" readonly>
+                                </div>
+                                <div>
+                                    <label for="targetShift" class="block text-sm font-medium text-gray-700">Shift</label>
+                                    <select id="targetShift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" disabled>
+                                        <option value="A">Shift A</option>
+                                        <option value="B">Shift B</option>
+                                        <option value="C">Shift C</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="targetVariant" class="block text-sm font-medium text-gray-700">Variant</label>
+                                    <select id="targetVariant" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <!-- isi target variant disini sesuai variant configurasi -->
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="targetKg" class="block text-sm font-medium text-gray-700">Target (kg)</label>
+                                    <input type="number" id="targetKg" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Target in kilograms">
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="submit" id="setTargetBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Set Target</button>
+                                <button type="button" id="updateTargetBtn" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 hidden">Update Target</button>
+                                <button type="button" id="cancelTargetBtn" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 hidden">Cancel</button>
+                            </div>
+                        </form>
+
+                        <div class="mt-6">
+                            <h4 class="font-medium mb-2">Current Targets</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variant</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target (kg)</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200" id="targetsTable">
+                                        <!-- Targets will be inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Configuration -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 border-b pb-2">Price Configuration</h3>
+                        <form id="priceForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="pricePerKg" class="block text-sm font-medium text-gray-700">Price per kg (Rp)</label>
+                                    <input type="number" id="pricePerKg" min="0" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Enter price per kg">
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="button" id="savePriceBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Save Price</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Variant Configuration -->
+                     <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 border-b pb-2">Variant Configuration</h3>
+                        <form id="variantForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="variantName" class="block text-sm font-medium text-gray-700">Variant Name</label>
+                                    <input type="text" id="variantName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">                 
+                                </div>
+                            </div>
+                        </form>
+                        <button type="button" id="addVariantBtn" class="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-blue-700">Add Variant</button>
+
+                     </div>
+
+                    <!-- User Management -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold mb-4 border-b pb-2">User Management</h3>
+                        <form id="userForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="userName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <input type="text" id="userName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="userEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" id="userEmail" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="userPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                                    <input type="password" id="userPassword" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="userRole" class="block text-sm font-medium text-gray-700">Role</label>
+                                    <select id="userRole" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="admin">Admin</option>
+                                        <option value="operator">Operator</option>
+                                        <option value="viewer">Viewer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="submit" id="addUserBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Add User</button>
+                                <button type="button" id="updateUserBtn" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 hidden">Update User</button>
+                                <button type="button" id="cancelUserBtn" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 hidden">Cancel</button>
+                            </div>
+                        </form>
+
+                        <div class="mt-6">
+                            <h4 class="font-medium mb-2">System Users</h4>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200" id="usersTable">
+                                        <!-- Users will be inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Export -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4 border-b pb-2">Data Export</h3>
+                        <form id="exportForm" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="exportStartDate" class="block text-sm font-medium text-gray-700">Start Date</label>
+                                    <input type="date" id="exportStartDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="exportEndDate" class="block text-sm font-medium text-gray-700">End Date</label>
+                                    <input type="date" id="exportEndDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label for="exportShift" class="block text-sm font-medium text-gray-700">Shift</label>
+                                    <select id="exportShift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                        <option value="all">All Shifts</option>
+                                        <option value="A">Shift A</option>
+                                        <option value="B">Shift B</option>
+                                        <option value="C">Shift C</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button type="button" id="exportPDF" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                    <i class="fas fa-file-pdf mr-2"></i>Export PDF
+                                </button>
+                                <button type="button" id="exportExcel" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                    <i class="fas fa-file-excel mr-2"></i>Export Excel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Global variables
+    let currentUser = null;
+    let editingTargetId = null;
+    let editingUserId = null;
+    let outputChart, lossesChart, trendChart;
+    let pricePerKg = 8000; // Default price per kg in Rupiah
+
+    // DOM Elements
+    const loginPage = document.getElementById('loginPage');
+    const appContainer = document.getElementById('appContainer');
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutLink = document.getElementById('logoutLink');
+    const adminPanelLink = document.getElementById('adminPanelLink');
+    const dashboardLink = document.getElementById('dashboardLink');
+    const inputDataLink = document.getElementById('inputDataLink');
+    const adminPanelLinkNav = document.getElementById('adminPanelLink');
+    const dashboardPage = document.getElementById('dashboardPage');
+    const inputDataPage = document.getElementById('inputDataPage');
+    const adminPanelPage = document.getElementById('adminPanelPage');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const currentDateTime = document.getElementById('currentDateTime');
+    const targetDate = document.getElementById('targetDate');
+    const inputDataForm = document.getElementById('inputDataForm');
+    const inputError = document.getElementById('inputError');
+    const inputSuccess = document.getElementById('inputSuccess');
+    const submitDataBtn = document.getElementById('submitDataBtn');
+    const recentDataTable = document.getElementById('recentDataTable');
+    const targetsTable = document.getElementById('targetsTable');
+    const usersTable = document.getElementById('usersTable');
+    const targetForm = document.getElementById('targetForm');
+    const userForm = document.getElementById('userForm');
+    const setTargetBtn = document.getElementById('setTargetBtn');
+    const updateTargetBtn = document.getElementById('updateTargetBtn');
+    const cancelTargetBtn = document.getElementById('cancelTargetBtn');
+    const addUserBtn = document.getElementById('addUserBtn');
+    const updateUserBtn = document.getElementById('updateUserBtn');
+    const cancelUserBtn = document.getElementById('cancelUserBtn');
+    const kpiCards = document.getElementById('kpiCards');
+    const dateRange = document.getElementById('dateRange');
+    const selectedDate = document.getElementById('selectedDate');
+    const shiftFilter = document.getElementById('shiftFilter');
+    const pricePerKgInput = document.getElementById('pricePerKg');
+    const savePriceBtn = document.getElementById('savePriceBtn');
+
+    const variantInput = document.getElementById('variantName');
+    const addVariantBtn = document.getElementById('addVariantBtn');
+    const targetVariantSelect = document.getElementById('targetVariant');
+    const variantSelect = document.getElementById('variantSelect');
+
+    // Initialize date picker with today's date
+    const today = new Date().toISOString().split('T')[0];
+    selectedDate.value = today;
+    document.getElementById('targetDate').value = today;
+    document.getElementById('exportStartDate').value = today;
+    document.getElementById('exportEndDate').value = today;
+
+    // Update current date time display
+    function updateCurrentDateTime() {
+        const now = new Date();
+        currentDateTime.value = now.toLocaleString();
+    }
+    function updateTargetDate() {
+        const now = new Date();
+        targetDate.value = now.toLocaleString();
+    }
+
+    function setShiftByCurrentTime() {
+        const now = new Date();
+        const hour = now.getHours();
+        let shift = 'A';
+        if (hour >= 6 && hour < 14) {
+            shift = 'A';
+        } else if (hour >= 14 && hour < 22) {
+            shift = 'B';
+        } else {
+            shift = 'C';
+        }
+        const shiftSelect = document.getElementById('shiftSelect');
+        if (shiftSelect) {
+            shiftSelect.value = shift;
+            fillVariantSelects();
+        }
+        const targetShift = document.getElementById('targetShift');
+        if (targetShift) {
+            targetShift.value = shift;
+        }
+    }
+
+    // Initialize the app
+    function initApp() {
+        updateCurrentDateTime();
+        updateTargetDate()
+        setShiftByCurrentTime(); 
+        setInterval(() => {
+            updateCurrentDateTime();
+            updateTargetDate()
+            setShiftByCurrentTime();
+        }, 1000);
+
+        // Check auth state
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                loginPage.classList.add('hidden');
+                appContainer.classList.remove('hidden');
+                
+                // Reset nav visibility
+                dashboardLink.classList.remove('hidden');
+                inputDataLink.classList.remove('hidden');
+                adminPanelLink.classList.remove('hidden');
+
+                // Check user role
+                db.collection('users').doc(user.uid).get().then(doc => {
+                    if (doc.exists) {
+                        const role = doc.data().role;
+                        if (role === 'viewer') {
+                            // Hanya dashboard & logout
+                            dashboardLink.classList.remove('hidden');
+                            inputDataLink.classList.add('hidden');
+                            adminPanelLink.classList.add('hidden');
+                        } else if (role === 'operator') {
+                            // Dashboard, input data & logout
+                            dashboardLink.classList.remove('hidden');
+                            inputDataLink.classList.remove('hidden');
+                            adminPanelLink.classList.add('hidden');
+                        } else if (role === 'admin') {
+                            // Semua akses
+                            dashboardLink.classList.remove('hidden');
+                            inputDataLink.classList.remove('hidden');
+                            adminPanelLink.classList.remove('hidden');
+                            loadPriceConfig();
+                        }
+                    }
+                });
+
+                loadDashboardData();
+                loadRecentData();
+                loadTargets();
+                loadUsers();
+            } else {
+                currentUser = null;
+                loginPage.classList.remove('hidden');
+                appContainer.classList.add('hidden');
+            }
+        });
+    }
+
+    // Load price configuration
+    function loadPriceConfig() {
+        db.collection('config').doc('pricePerKg').get().then(doc => {
+            if (doc.exists) {
+                pricePerKg = doc.data().value;
+                pricePerKgInput.value = pricePerKg;
+            }
+        });
+    }
+
+    function fillVariantSelects() {
+        const shift = document.getElementById('shiftSelect').value;
+        // Gunakan tanggal yang dipilih user, jika ada
+        const dateStr = selectedDate.value || today;
+        const date = new Date(dateStr);
+        date.setHours(0, 0, 0, 0);
+
+        db.collection('targets')
+            .where('date', '>=', firebase.firestore.Timestamp.fromDate(date))
+            .where('date', '<=', firebase.firestore.Timestamp.fromDate(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999)))
+            .where('shift', '==', shift)
+            .limit(1)
+            .get()
+            .then(snapshot => {
+                if (!snapshot.empty) {
+                    const target = snapshot.docs[0].data();
+                    variantSelect.value = target.variant;
+                } else {
+                    variantSelect.value = '';
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching target variant:', err);
+                variantSelect.value = '';
+            });
+    }
+
+    // Hanya untuk admin panel, tidak mengisi variantSelect input data!
+    function loadVariantConfig() {
+        if (targetVariantSelect) targetVariantSelect.innerHTML = '';
+
+        db.collection('config').doc('variant').get().then(doc => {
+            if (doc.exists && Array.isArray(doc.data().variants)) {
+                doc.data().variants.forEach(variant => {
+                    if (targetVariantSelect) {
+                        const option = document.createElement('option');
+                        option.value = variant;
+                        option.textContent = variant;
+                        targetVariantSelect.appendChild(option);
+                    }
+                });
+            }
+        }).catch(err => {
+            console.error('Error loading variants:', err);
+        });
+    }
+
+    function setActiveNav(linkId) {
+    // Semua link nav
+        [dashboardLink, inputDataLink, adminPanelLink].forEach(link => {
+            link.classList.remove('bg-gradient-to-r', 'from-gray-800', 'to-green-300');
+        });
+        // Aktifkan yang dipilih
+        document.getElementById(linkId).classList.add('bg-gradient-to-r', 'from-gray-800', 'to-green-300');
+    }
+
+    // Setelah menambah variant, refresh kedua select
+    if (addVariantBtn && variantInput) {
+        addVariantBtn.addEventListener('click', () => {
+            const newVariant = variantInput.value.trim();
+            if (!newVariant) {
+                alert('Please enter a valid variant name');
+                return;
+            }
+            db.collection('config').doc('variant').get().then(doc => {
+                let variants = [];
+                if (doc.exists && Array.isArray(doc.data().variants)) {
+                    variants = doc.data().variants;
+                }
+                if (!variants.includes(newVariant)) {
+                    variants.push(newVariant);
+                }
+                return db.collection('config').doc('variant').set(
+                    { variants: variants },
+                    { merge: true }
+                );
+            }).then(() => {
+                variantInput.value = '';
+                alert('Variant added successfully!');
+                fillVariantSelects(); // refresh kedua select
+                loadVariantConfig();
+            }).catch(error => {
+                alert('Error adding variant: ' + error.message);
+            });
+        });
+    }
+
+    // Save price configuration
+    savePriceBtn.addEventListener('click', () => {
+        const newPrice = parseFloat(pricePerKgInput.value);
+        if (!isNaN(newPrice) && newPrice >= 0) {
+            pricePerKg = newPrice;
+            db.collection('config').doc('pricePerKg').set({
+                value: pricePerKg
+            }).then(() => {
+                alert('Price per kg saved successfully!');
+                loadDashboardData(); // Refresh dashboard to update KPI
+            }).catch(error => {
+                alert('Error saving price: ' + error.message);
+            });
+        } else {
+            alert('Please enter a valid price');
+        }
+    });
+
+    // Event Listeners
+    loginForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        loginBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Signing in...';
+        loginBtn.disabled = true;
+        
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                loginError.classList.add('hidden');
+                loginBtn.innerHTML = 'Sign in';
+                loginBtn.disabled = false;
+            })
+            .catch(error => {
+                loginError.textContent = error.message;
+                loginError.classList.remove('hidden');
+                loginBtn.innerHTML = 'Sign in';
+                loginBtn.disabled = false;
+            });
+    });
+
+    logoutLink.addEventListener('click', e => {
+        e.preventDefault();
+        auth.signOut().then(() => {
+            // Reset forms and clear data
+            loginForm.reset();
+            inputDataForm.reset();
+            targetForm.reset();
+            userForm.reset();
+            
+            // Hide admin panel link
+            adminPanelLink.classList.add('hidden');
+            
+            // Reset editing states
+            editingTargetId = null;
+            editingUserId = null;
+            
+            // Destroy charts if they exist
+            if (outputChart) outputChart.destroy();
+            if (lossesChart) lossesChart.destroy();
+            if (trendChart) trendChart.destroy();
+        });
+    });
+
+    // Navigation
+    dashboardLink.addEventListener('click', e => {
+        e.preventDefault();
+        dashboardPage.classList.remove('hidden');
+        inputDataPage.classList.add('hidden');
+        adminPanelPage.classList.add('hidden');
+        loadDashboardData();
+        setActiveNav('dashboardLink');
+    });
+
+    inputDataLink.addEventListener('click', e => {
+        e.preventDefault();
+        dashboardPage.classList.add('hidden');
+        inputDataPage.classList.remove('hidden');
+        adminPanelPage.classList.add('hidden');
+        setActiveNav('inputDataLink');
+    });
+
+    adminPanelLink.addEventListener('click', e => {
+        e.preventDefault();
+        dashboardPage.classList.add('hidden');
+        inputDataPage.classList.add('hidden');
+        adminPanelPage.classList.remove('hidden');
+        loadVariantConfig();
+        fillVariantSelects();
+        setActiveNav('adminPanelLink');
+    });
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.add('active');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+    });
+
+    // Input Data Form
+    inputDataForm.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const shift = document.getElementById('shiftSelect').value;
+        const variant = document.getElementById('variantSelect').value;
+        const weight = parseFloat(document.getElementById('inputWeight').value);
+
+        if (!weight || isNaN(weight)) {
+            inputError.textContent = 'Please enter a valid weight';
+            inputError.classList.remove('hidden');
+            return;
+        }
+
+        // Cek apakah target sudah di-set untuk tanggal dan shift ini
+        const now = new Date();
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+        const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+        try {
+            const targetSnapshot = await db.collection('targets')
+                .where('date', '>=', firebase.firestore.Timestamp.fromDate(startOfDay))
+                .where('date', '<=', firebase.firestore.Timestamp.fromDate(endOfDay))
+                .where('shift', '==', shift)
+                .limit(1)
+                .get();
+
+            if (targetSnapshot.empty) {
+                inputError.textContent = 'Target belum di-set untuk shift dan tanggal ini. Silakan hubungi admin.';
+                inputError.classList.remove('hidden');
+                return;
+            }
+        } catch (err) {
+            inputError.textContent = 'Gagal cek target: ' + err.message;
+            inputError.classList.remove('hidden');
+            return;
+        }
+
+        submitDataBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Submitting...';
+        submitDataBtn.disabled = true;
+
+        const productionData = {
+            date: firebase.firestore.Timestamp.fromDate(now),
+            shift: shift,
+            variant: variant,
+            weight: weight,
+            operatorId: currentUser.uid,
+            operatorName: currentUser.displayName || currentUser.email.split('@')[0]
+        };
+
+        db.collection('production').add(productionData)
+            .then(() => {
+                inputError.classList.add('hidden');
+                inputSuccess.classList.remove('hidden');
+                inputDataForm.reset();
+                submitDataBtn.innerHTML = 'Submit Data';
+                submitDataBtn.disabled = false;
+
+                // Reload recent data
+                loadRecentData();
+                loadDashboardData();
+
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    inputSuccess.classList.add('hidden');
+                }, 3000);
+            })
+            .catch(error => {
+                inputError.textContent = error.message;
+                inputError.classList.remove('hidden');
+                submitDataBtn.innerHTML = 'Submit Data';
+                submitDataBtn.disabled = false;
+            });
+    });
+
+    // Target Form
+    targetForm.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const date = document.getElementById('targetDate').value;
+        const shift = document.getElementById('targetShift').value;
+        const variant = document.getElementById('targetVariant').value;
+        const targetKg = parseFloat(document.getElementById('targetKg').value);
+        
+        if (!date || !shift || !variant || !targetKg || isNaN(targetKg)) {
+            alert('Please fill all fields with valid values');
+            return;
+        }
+        
+        setTargetBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Saving...';
+        setTargetBtn.disabled = true;
+        
+        const targetData = {
+            date: firebase.firestore.Timestamp.fromDate(new Date(date)),
+            shift: shift,
+            variant: variant,
+            targetKg: targetKg
+        };
+        
+        if (editingTargetId) {
+            // Update existing target
+            db.collection('targets').doc(editingTargetId).update(targetData)
+                .then(() => {
+                    resetTargetForm();
+                    loadTargets();
+                    setTargetBtn.innerHTML = 'Set Target';
+                    setTargetBtn.disabled = false;
+                })
+                .catch(error => {
+                    alert(error.message);
+                    setTargetBtn.innerHTML = 'Set Target';
+                    setTargetBtn.disabled = false;
+                });
+        } else {
+            // Add new target
+            db.collection('targets').add(targetData)
+                .then(() => {
+                    resetTargetForm();
+                    loadTargets();
+                    setTargetBtn.innerHTML = 'Set Target';
+                    setTargetBtn.disabled = false;
+                })
+                .catch(error => {
+                    alert(error.message);
+                    setTargetBtn.innerHTML = 'Set Target';
+                    setTargetBtn.disabled = false;
+                });
+        }
+    });
+
+    // User Form
+    userForm.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const name = document.getElementById('userName').value;
+        const email = document.getElementById('userEmail').value;
+        const password = document.getElementById('userPassword').value;
+        const role = document.getElementById('userRole').value;
+        
+        if (!name || !email || !role || (!editingUserId && !password)) {
+            alert('Please fill all required fields');
+            return;
+        }
+        
+        addUserBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Saving...';
+        addUserBtn.disabled = true;
+        
+        const userData = {
+            name: name,
+            email: email,
+            role: role
+        };
+        
+        if (editingUserId) {
+            // Update existing user
+            if (password) {
+                // Update password if provided
+                auth.currentUser.updatePassword(password)
+                    .then(() => {
+                        return db.collection('users').doc(editingUserId).update(userData);
+                    })
+                    .then(() => {
+                        resetUserForm();
+                        loadUsers();
+                        addUserBtn.innerHTML = 'Add User';
+                        addUserBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        alert(error.message);
+                        addUserBtn.innerHTML = 'Add User';
+                        addUserBtn.disabled = false;
+                    });
+            } else {
+                // Just update user data without changing password
+                db.collection('users').doc(editingUserId).update(userData)
+                    .then(() => {
+                        resetUserForm();
+                        loadUsers();
+                        addUserBtn.innerHTML = 'Add User';
+                        addUserBtn.disabled = false;
+                    })
+                    .catch(error => {
+                        alert(error.message);
+                        addUserBtn.innerHTML = 'Add User';
+                        addUserBtn.disabled = false;
+                    });
+            }
+        } else {
+            // Create new user
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(userCredential => {
+                    return db.collection('users').doc(userCredential.user.uid).set({
+                        name: name,
+                        email: email,
+                        role: role
+                    });
+                })
+                .then(() => {
+                    resetUserForm();
+                    loadUsers();
+                    addUserBtn.innerHTML = 'Add User';
+                    addUserBtn.disabled = false;
+                })
+                .catch(error => {
+                    alert(error.message);
+                    addUserBtn.innerHTML = 'Add User';
+                    addUserBtn.disabled = false;
+                });
+        }
+    });
+
+    // Cancel Target Edit
+    cancelTargetBtn.addEventListener('click', () => {
+        resetTargetForm();
+    });
+
+    // Cancel User Edit
+    cancelUserBtn.addEventListener('click', () => {
+        resetUserForm();
+    });
+
+    // Date range filter change
+    dateRange.addEventListener('change', loadDashboardData);
+    selectedDate.addEventListener('change', loadDashboardData);
+    shiftFilter.addEventListener('change', loadDashboardData);
+
+    // Helper Functions
+    function resetTargetForm() {
+        targetForm.reset();
+        document.getElementById('targetDate').value = today;
+        editingTargetId = null;
+        setTargetBtn.classList.remove('hidden');
+        updateTargetBtn.classList.add('hidden');
+        cancelTargetBtn.classList.add('hidden');
+    }
+
+    function resetUserForm() {
+        userForm.reset();
+        editingUserId = null;
+        addUserBtn.classList.remove('hidden');
+        updateUserBtn.classList.add('hidden');
+        cancelUserBtn.classList.add('hidden');
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    function formatDateOnly(date) {
+        return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric'
+        });
+    }
+
+    // Data Loading Functions
+    function loadDashboardData() {
+        const range = dateRange.value;
+        const date = new Date(selectedDate.value);
+        const shift = shiftFilter.value;
+        
+        // Show loading state
+        kpiCards.innerHTML = `
+            <div class="col-span-4 text-center py-10">
+                <div class="inline-block loading-spinner"></div>
+                <span class="ml-2">Loading data...</span>
+            </div>
+        `;
+        
+        // Calculate date range based on selection
+        let startDate, endDate;
+        
+        if (range === 'daily') {
+            startDate = new Date(date);
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(date);
+            endDate.setHours(23, 59, 59, 999);
+        } else if (range === 'weekly') {
+            // Get start of week (Sunday)
+            startDate = new Date(date);
+            startDate.setDate(date.getDate() - date.getDay());
+            startDate.setHours(0, 0, 0, 0);
+            
+            // Get end of week (Saturday)
+            endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + 6);
+            endDate.setHours(23, 59, 59, 999);
+        } else { // monthly
+            // Get start of month
+            startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+            startDate.setHours(0, 0, 0, 0);
+            
+            // Get end of month
+            endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            endDate.setHours(23, 59, 59, 999);
+        }
+        
+        // Query production data
+        let productionQuery = db.collection('production')
+            .where('date', '>=', firebase.firestore.Timestamp.fromDate(startDate))
+            .where('date', '<=', firebase.firestore.Timestamp.fromDate(endDate));
+            
+        if (shift !== 'all') {
+            productionQuery = productionQuery.where('shift', '==', shift);
+        }
+        
+        // Query targets data
+        let targetsQuery = db.collection('targets')
+            .where('date', '>=', firebase.firestore.Timestamp.fromDate(startDate))
+            .where('date', '<=', firebase.firestore.Timestamp.fromDate(endDate));
+            
+        if (shift !== 'all') {
+            targetsQuery = targetsQuery.where('shift', '==', shift);
+        }
+        
+        Promise.all([
+            productionQuery.get(),
+            targetsQuery.get()
+        ]).then(([productionSnapshot, targetsSnapshot]) => {
+            // Process production data
+            const productionData = [];
+            let totalOutput = 0;
+            
+            productionSnapshot.forEach(doc => {
+                const data = doc.data();
+                productionData.push({
+                    id: doc.id,
+                    ...data,
+                    date: data.date.toDate()
+                });
+                totalOutput += data.weight || 0;
+            });
+            
+            // Process targets data
+            const targetsData = [];
+            let totalTarget = 0;
+            
+            targetsSnapshot.forEach(doc => {
+                const data = doc.data();
+                targetsData.push({
+                    id: doc.id,
+                    ...data,
+                    date: data.date.toDate()
+                });
+                totalTarget += data.targetKg || 0;
+            });
+            
+            // Calculate KPIs
+            const totalLosses = totalTarget > 0 ? totalTarget - totalOutput : 0;
+            const lossesPercentage = totalTarget > 0 ? (totalLosses / totalTarget * 100) : 0;
+            const efficiency = totalTarget > 0 ? (totalOutput / totalTarget * 100) : 0;
+            
+            // Calculate losses in Rupiah using configured price
+            const lossesInRupiah = totalLosses * pricePerKg;
+            
+            // Update KPI cards
+            kpiCards.innerHTML = `
+                <!-- Target Mixing -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-100">Target Mixing</p>
+                            <h3 class="text-2xl font-bold text-gray-100">${totalTarget.toLocaleString()} kg</h3>
+                        </div>
+                        <div class="bg-gray-800 p-2 rounded-full">
+                            <i class="fas fa-bullseye text-blue-500"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="h-2 bg-gray-200 rounded-full">
+                            <div class="h-2 bg-blue-500 rounded-full" style="width: ${efficiency}%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Total Output -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-100">Total Output</p>
+                            <h3 class="text-2xl font-bold text-gray-100">${totalOutput.toLocaleString()} kg</h3>
+                        </div>
+                        <div class="bg-gray-800 p-2 rounded-full">
+                            <i class="fas fa-boxes text-green-500"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-sm text-gray-100">
+                        <span class="text-green-500">${efficiency.toFixed(1)}%</span> efficiency
+                    </div>
+                </div>
+                
+                <!-- Total Losses -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-100">Total Losses</p>
+                            <h3 class="text-2xl font-bold text-gray-100">${totalLosses.toLocaleString()} kg <span class="text-sm">(${lossesPercentage.toFixed(1)}%)</span></h3>
+                        </div>
+                        <div class="bg-gray-800 p-2 rounded-full">
+                            <i class="fas fa-exclamation-triangle text-red-500"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-sm text-gray-100">
+                        <span class="text-red-500">${lossesPercentage.toFixed(1)}%</span> of target
+                    </div>
+                </div>
+                
+                <!-- Losses in Rupiah & Efficiency -->
+                <div class="bg-gray-800 p-4 rounded-lg shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-100">Losses (Rupiah)</p>
+                            <h3 class="text-xl font-bold text-red-300">Rp ${lossesInRupiah.toLocaleString()}</h3>
+                            <p class="text-sm text-gray-400 mt-2">Efficiency: <span class="text-green-400">${efficiency.toFixed(1)}%</span></p>
+                        </div>
+                        <div class="bg-gray-800 p-2 rounded-full">
+                            <i class="fas fa-coins text-yellow-400"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Create charts
+            createCharts(productionData, targetsData, range);
+            
+            // Update trend text
+            document.getElementById('trendOutput').textContent = 
+                `Showing ${range} data from ${formatDateOnly(startDate)} to ${formatDateOnly(endDate)}`;
+        }).catch(error => {
+            console.error("Error loading dashboard data:", error);
+            kpiCards.innerHTML = `
+                <div class="col-span-4 text-center py-10 text-red-500">
+                    Error loading data. Please try again.
+                </div>
+            `;
+        });
+    }
+
+    function createCharts(productionData, targetsData, range) {
+        // Group data by date for the trend chart
+        const groupedData = {};
+        
+        productionData.forEach(item => {
+            const dateKey = item.date.toDateString();
+            if (!groupedData[dateKey]) {
+                groupedData[dateKey] = {
+                    date: item.date,
+                    output: 0,
+                    target: 0
+                };
+            }
+            groupedData[dateKey].output += item.weight;
+        });
+        
+        targetsData.forEach(item => {
+            const dateKey = item.date.toDateString();
+            if (!groupedData[dateKey]) {
+                groupedData[dateKey] = {
+                    date: item.date,
+                    output: 0,
+                    target: 0
+                };
+            }
+            groupedData[dateKey].target += item.targetKg;
+        });
+        
+        // Convert to array and sort by date
+        const sortedData = Object.values(groupedData).sort((a, b) => a.date - b.date);
+        
+        // Prepare chart data
+        const labels = sortedData.map(item => formatDateOnly(item.date));
+        const outputData = sortedData.map(item => item.output);
+        const targetData = sortedData.map(item => item.target);
+        
+        // Output vs Target Chart - grouped by shift
+        const outputCtx = document.getElementById('outputChart').getContext('2d');
+        
+        if (outputChart) outputChart.destroy();
+        
+        // Group data by shift for comparison
+        const shiftData = {
+            A: { output: 0, target: 0 },
+            B: { output: 0, target: 0 },
+            C: { output: 0, target: 0 }
+        };
+        
+        productionData.forEach(item => {
+            shiftData[item.shift].output += item.weight || 0;
+        });
+        
+        targetsData.forEach(item => {
+            shiftData[item.shift].target += item.targetKg || 0;
+        });
+        
+        outputChart = new Chart(outputCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Shift A', 'Shift B', 'Shift C'],
+                datasets: [
+                    {
+                        label: 'Output',
+                        data: [shiftData.A.output, shiftData.B.output, shiftData.C.output],
+                        backgroundColor: ['rgba(54, 162, 235, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(54, 162, 235, 0.7)'],
+                        borderColor: ['rgba(54, 162, 235, 1)', 'rgba(54, 162, 235, 1)', 'rgba(54, 162, 235, 1)'],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Target',
+                        data: [shiftData.A.target, shiftData.B.target, shiftData.C.target],
+                        type: 'line',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Weight (kg)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Losses Percentage Chart - donut chart
+        const totalLosses = sortedData.reduce((sum, item) => {
+            return sum + (item.target > 0 ? item.target - item.output : 0);
+        }, 0);
+        
+        const totalTarget = sortedData.reduce((sum, item) => sum + item.target, 0);
+        const totalOutput = sortedData.reduce((sum, item) => sum + item.output, 0);
+        
+        const lossesCtx = document.getElementById('lossesChart').getContext('2d');
+        
+        if (lossesChart) lossesChart.destroy();
+        
+        lossesChart = new Chart(lossesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Losses', 'Output'],
+                datasets: [{
+                    data: [totalLosses, totalOutput],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const percentage = Math.round((value / (totalLosses + totalOutput)) * 100);
+                                return `${label}: ${value.toLocaleString()} kg (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Daily Trend Chart
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        
+        if (trendChart) trendChart.destroy();
+        
+        trendChart = new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Output',
+                        data: outputData,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    },
+                    {
+                        label: 'Target',
+                        data: targetData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Weight (kg)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function loadRecentData() {
+        recentDataTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">Loading data...</td></tr>';
+        
+        db.collection('production')
+            .orderBy('date', 'desc')
+            .limit(10)
+            .get()
+            .then(snapshot => {
+                if (snapshot.empty) {
+                    recentDataTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">No production data found</td></tr>';
+                    return;
+                }
+                
+                recentDataTable.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const date = data.date.toDate();
+                    const operatorName = data.operatorName || 'Unknown';
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">${formatDate(date)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">Shift ${data.shift}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${data.weight.toLocaleString()} kg</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${operatorName}</td>
+                    `;
+                    recentDataTable.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("Error loading recent data:", error);
+                recentDataTable.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-500">Error loading data</td></tr>';
+            });
+    }
+
+    function loadTargets() {
+        targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">Loading targets...</td></tr>';
+        
+        db.collection('targets')
+            .orderBy('date', 'desc')
+            .get()
+            .then(snapshot => {
+                if (snapshot.empty) {
+                    targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">No targets found</td></tr>';
+                    return;
+                }
+                
+                targetsTable.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const date = data.date.toDate();
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">${formatDateOnly(date)}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">Shift ${data.shift}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">Variant ${data.variant}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${data.targetKg.toLocaleString()} kg</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button class="edit-target text-blue-600 hover:text-blue-800 mr-2" data-id="${doc.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete-target text-red-600 hover:text-red-800" data-id="${doc.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    targetsTable.appendChild(row);
+                });
+                
+                // Add event listeners to edit buttons
+                document.querySelectorAll('.edit-target').forEach(button => {
+                    button.addEventListener('click', e => {
+                        const targetId = e.currentTarget.getAttribute('data-id');
+                        editTarget(targetId);
+                    });
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-target').forEach(button => {
+                    button.addEventListener('click', e => {
+                        const targetId = e.currentTarget.getAttribute('data-id');
+                        deleteTarget(targetId);
+                    });
+                });
+            })
+            .catch(error => {
+                console.error("Error loading targets:", error);
+                targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">Error loading targets</td></tr>';
+            });
+    }
+
+    function loadUsers() {
+        usersTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">Loading users...</td></tr>';
+        
+        db.collection('users')
+            .get()
+            .then(snapshot => {
+                if (snapshot.empty) {
+                    usersTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">No users found</td></tr>';
+                    return;
+                }
+                
+                usersTable.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">${data.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${data.email}</td>
+                        <td class="px-6 py-4 whitespace-nowrap capitalize">${data.role}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button class="edit-user text-blue-600 hover:text-blue-800 mr-2" data-id="${doc.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete-user text-red-600 hover:text-red-800" data-id="${doc.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    usersTable.appendChild(row);
+                });
+                
+                // Add event listeners to edit buttons
+                document.querySelectorAll('.edit-user').forEach(button => {
+                    button.addEventListener('click', e => {
+                        const userId = e.currentTarget.getAttribute('data-id');
+                        editUser(userId);
+                    });
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-user').forEach(button => {
+                    button.addEventListener('click', e => {
+                        const userId = e.currentTarget.getAttribute('data-id');
+                        deleteUser(userId);
+                    });
+                });
+            })
+            .catch(error => {
+                console.error("Error loading users:", error);
+                usersTable.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-500">Error loading users</td></tr>';
+            });
+    }
+
+    function editTarget(targetId) {
+        db.collection('targets').doc(targetId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const date = data.date.toDate();
+                    
+                    document.getElementById('targetDate').value = date.toISOString().split('T')[0];
+                    document.getElementById('targetShift').value = data.shift;
+                    document.getElementById('targetVariant').value = data.variant;
+                    document.getElementById('targetKg').value = data.targetKg;
+                    
+                    editingTargetId = targetId;
+                    setTargetBtn.classList.add('hidden');
+                    updateTargetBtn.classList.remove('hidden');
+                    cancelTargetBtn.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                alert("Error loading target: " + error.message);
+            });
+    }
+
+    function deleteTarget(targetId) {
+        if (confirm('Are you sure you want to delete this target?')) {
+            db.collection('targets').doc(targetId).delete()
+                .then(() => {
+                    loadTargets();
+                })
+                .catch(error => {
+                    alert("Error deleting target: " + error.message);
+                });
+        }
+    }
+
+    function editUser(userId) {
+        db.collection('users').doc(userId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    
+                    document.getElementById('userName').value = data.name;
+                    document.getElementById('userEmail').value = data.email;
+                    document.getElementById('userRole').value = data.role;
+                    
+                    // Don't pre-fill password for security
+                    document.getElementById('userPassword').value = '';
+                    
+                    editingUserId = userId;
+                    addUserBtn.classList.add('hidden');
+                    updateUserBtn.classList.remove('hidden');
+                    cancelUserBtn.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                alert("Error loading user: " + error.message);
+            });
+    }
+
+    function deleteUser(userId) {
+        if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+            // First delete the user document
+            db.collection('users').doc(userId).delete()
+                .then(() => {
+                    // Then delete the auth user
+                    return auth.getUser(userId).then(userRecord => {
+                        return auth.deleteUser(userId);
+                    });
+                })
+                .then(() => {
+                    loadUsers();
+                })
+                .catch(error => {
+                    alert("Error deleting user: " + error.message);
+                });
+        }
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        initApp();
+        loadVariantConfig();
+        fillVariantSelects();
+            if (document.getElementById('shiftSelect')) {
+            document.getElementById('shiftSelect').addEventListener('change', fillVariantSelects);
+        }
+    });
+    </script>
+</body>
+</html>
