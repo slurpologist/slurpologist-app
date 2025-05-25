@@ -1,13 +1,32 @@
+<!-- 
+  ===============================================
+  This HTML file was crafted by SeccaStudio.
+  Signature code for web development projects.
+  Author   : SeccaStudio (Web Dev | Game Dev | Content Creator)
+  Version  : 1.0
+  Date     : 2025-05-25
+  Contact  : seccastudio@gmail.com
+  Website  : https://seccaprofile.vercel.app/
+  License  : MIT License
+
+  Note     : Do not remove this comment block 
+  ===============================================
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="https://freshfactory.id/media/public/testimoni/new-title-14062023-115752.png">
-    <title>Mixing Production Dashboard</title>
+    <title>Slurpologist app | Slurp Production Dashboard</title>
+    <script>
+        console.log("%cHello Inspector KEPO 👀", "color: #00bcd4; font-size: 50px;");
+        console.log("%cThis site was built by SeccaStudio", "color: #4caf50; font-size: 14px;");
+        console.log("https://seccaprofile.vercel.app/");
+    </script>
     <!-- SEO Meta Tags -->
     <meta name="description" content="Slurp Production Dashboard - Monitor, input, dan analisa data produksi Slurp secara real-time.">
-    <meta name="keywords" content="Slurp, Production, Dashboard, Monitoring, Data, Industri, SLURPOLOGIST, SeccaStudio">
+    <meta name="keywords" content="Slurp, Production, Dashboard, Monitoring, Data, Industri, SLURPOLOGIST, SeccaStudio, KIN, PT ABC Kogen Dairy, Fresh Factory, Realtime Data, IoT, Manufacturing, Analytics, Web App, Data Visualization, SCADA, MES, Industrial Dashboard, Monitoring System, Smart Factory, Factory Monitoring, Performance Dashboard, Developer, Web Developer, Frontend, Backend, Fullstack, Node.js, React, Vue, Laravel, JavaScript, API, UX, UI, Data Logging, Factory Automation, Machine Data, Industry 4.0, Secca, PT Kogen, Milk Production, Monitoring Tools, Industrial Web App, Custom Dashboard, Control Panel, Digital Factory">
     <meta name="author" content="SeccaStudio">
     <meta name="robots" content="index, follow">
     <!-- Open Graph / Facebook -->
@@ -84,72 +103,43 @@
             to { transform: rotate(360deg); }
         }
     </style>
-    <script>
-    // Firebase configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyAfA0Q56zSdjzmLw954NpsIBuZceeSs1Tg",
-        authDomain: "slurpologist-app.firebaseapp.com",
-        projectId: "slurpologist-app",
-        storageBucket: "slurpologist-app.appspot.com",
-        messagingSenderId: "374699696491",
-        appId: "1:374699696491:web:15fa23d7757e8333a22c2e",
-        measurementId: "G-7KK4GVEZ7C"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    </script>
+    <script src="config/firebaseConfig.js"></script>
 </head>
 <body class="bg-gradient-to-br from-black to-gray-800 montserrat">
-    <!-- Login Page -->
-     
+    <!-- Login Page -->     
     <div id="loginPage" class="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-900 text-white px-4 sm:px-6 lg:px-8 gap-8">
     <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 sm:p-8 md:p-12 lg:p-16 mb-8 md:mb-0">
-  <div class="w-full max-w-xl space-y-10 floating text-center">
-
-    <!-- Logo & Title -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-      <div class="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center glow-box mx-auto sm:mx-0">
-        <i class="fas fa-atom text-3xl text-white"></i>
-      </div>
-      <h1 class="text-3xl sm:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 glow-text">
-        SLURPOLOGIST
-      </h1>
-    </div>
-
-    <!-- Headline, Subheadline, Description -->
-    <div class="space-y-4">
-      <h2 class="text-2xl sm:text-3xl font-bold glow-text">
-        Dashboard Slurp Production
-      </h2>
-      <h3 class="text-xl sm:text-2xl font-semibold glow-text">
-        Real-Time Production Monitoring With a Modern, Secure, and Efficient System
-      </h3>
-      <p class="text-base sm:text-lg text-gray-300">
-        Monitor, input, and analyze your production data instantly to improve efficiency and decision-making.
-      </p>
-    </div>
-
-    <!-- Feature Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-      <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700">
-        <i class="fas fa-fingerprint text-blue-400 text-2xl mb-2"></i>
-        <p class="text-sm">Akses Aman & Mudah</p>
-      </div>
-      <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700">
-        <i class="fas fa-shield-alt text-purple-400 text-2xl mb-2"></i>
-        <p class="text-sm">Data Terproteksi</p>
-      </div>
-      <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700">
-        <i class="fas fa-bolt text-yellow-400 text-2xl mb-2"></i>
-        <p class="text-sm">Monitoring Real-Time</p>
-      </div>
-    </div>
-    
-  </div>
-</div>
+        <div class="max-w-md w-full space-y-8 floating">
+            <div class="flex items-center justify-center mb-8">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center glow-box">
+                    <i class="fas fa-atom text-3xl text-white"></i>
+                </div>
+                <h1 class="ml-4 text-3xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 glow-text">
+                    SLURPOLOGIST
+                </h1>
+            </div>
+            
+            <h2 class="text-2xl sm:text-3xl font-bold text-center glow-text">Slurp Production Dashboard</h2>
+            
+            <p class="text-base sm:text-lg text-gray-300 text-center text-justify">
+                Monitoring, Input and analyze your production data instantly to improve efficiency and decision-making in your slurp production process.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+                <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700 text-center">
+                    <i class="fas fa-fingerprint text-blue-400 text-2xl mb-2"></i>
+                    <p class="text-sm">Safe and easy access</p>
+                </div>
+                <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700 text-center">
+                    <i class="fas fa-shield-alt text-purple-400 text-2xl mb-2"></i>
+                    <p class="text-sm">Protected data</p>
+                </div>
+                <div class="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700 text-center">
+                    <i class="fas fa-bolt text-yellow-400 text-2xl mb-2"></i>
+                    <p class="text-sm">Monitoring Real-Time Monitoring</p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="w-full max-w-md bg-gray-900 text-white p-6 sm:p-8 rounded-lg shadow-xl border border-gray-700">
         <div class="text-center mb-8">
@@ -230,7 +220,7 @@
                 <i class="fas fa-bars text-xl"></i>
             </button>
             <h1 class="text-xl font-bold">Slurp Monitoring</h1>
-            <div class="w-8"></div> <!-- Spacer for alignment -->
+            <div class="w-8"></div> 
         </div>
 
         <!-- Main Content -->
@@ -248,9 +238,6 @@
                         <input type="date" id="selectedDate" class="border rounded px-3 py-2 w-full sm:w-auto">
                         <select id="shiftFilter" class="border rounded px-3 py-2 w-full sm:w-auto">
                             <option value="all">All Shifts</option>
-                            <option value="A">Shift A</option>
-                            <option value="B">Shift B</option>
-                            <option value="C">Shift C</option>
                         </select>
                     </div>
                 </div>
@@ -292,62 +279,47 @@
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
-
-                <!-- Recent Data -->
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold mb-4">Recent Production Data</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Input (kg)</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operator</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200" id="recentDataTable">
-                                <!-- Data will be inserted here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
 
             <!-- Input Data Page (hidden initially) -->
             <div id="inputDataPage" class="hidden">
-                <div class="bg-gray-200 p-6 rounded-lg shadow">
+                <div>
+                    <div class="bg-gray-200 p-6 rounded-lg shadow">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Current Target</h2>
+                        <div id="currentTargetInfo" class="mt-4 p-3 rounded hidden"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-200 p-6 rounded-lg shadow mt-8">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Input Production Data</h2>
                     <form id="inputDataForm" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Date & Time</label>
-                                <input type="text" id="currentDateTime" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100" readonly>
+                                <input type="date" id="currentDateTime" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100">
                             </div>
                             <div>
                                 <label for="shiftSelect" class="block text-sm font-medium text-gray-700">Shift</label>
-                                <select id="shiftSelect" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" disabled>
+                                <select id="shiftSelect" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                     <option value="A">Shift A (06:00 - 14:00)</option>
                                     <option value="B">Shift B (14:00 - 22:00)</option>
                                     <option value="C">Shift C (22:00 - 06:00)</option>
                                 </select>
                             </div>
-                                <div>
-                                    <label for="variantSelect" class="block text-sm font-medium text-gray-700">Variant</label>
-                                    <input type="text" id="variantSelect" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100" placeholder="will be filled in automatically" readonly>
-                                </div>
+                                <select id="variantSelect" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-gray-100">
+                                    <option value="">Pilih variant</option>
+                                </select>
                         </div>
                         <div>
                             <label for="inputWeight" class="block text-sm font-medium text-gray-700">Weight (kg)</label>
                             <input type="number" id="inputWeight" min="0" step="0.01" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="Enter weight in kilograms">
                         </div>
+                        <div id="inputError" class="text-red-500 text-sm hidden"></div>
+                        <div id="inputSuccess" class="text-green-500 text-sm hidden">Data submitted successfully!</div>
                         <div class="pt-2">
                             <button type="submit" id="submitDataBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 Submit Data
                             </button>
                         </div>
-                        <div id="inputError" class="text-red-500 text-sm hidden"></div>
-                        <div id="inputSuccess" class="text-green-500 text-sm hidden">Data submitted successfully!</div>
                     </form>
                 </div>
             </div>
@@ -364,11 +336,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                                 <div>
                                     <label for="targetDate" class="block text-sm font-medium text-gray-700">Date & Time</label>
-                                    <input  type="text" id="targetDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100" readonly>
+                                    <input type="date" id="targetDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100">
                                 </div>
                                 <div>
                                     <label for="targetShift" class="block text-sm font-medium text-gray-700">Shift</label>
-                                    <select id="targetShift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" disabled>
+                                    <select id="targetShift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                                         <option value="A">Shift A</option>
                                         <option value="B">Shift B</option>
                                         <option value="C">Shift C</option>
@@ -377,7 +349,7 @@
                                 <div>
                                     <label for="targetVariant" class="block text-sm font-medium text-gray-700">Variant</label>
                                     <select id="targetVariant" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                                        <!-- isi target variant disini sesuai variant configurasi -->
+                                       
                                     </select>
                                 </div>
                                 <div>
@@ -392,9 +364,9 @@
                             </div>
                         </form>
 
-                        <div class="mt-6">
-                            <h4 class="font-medium mb-2">Current Targets</h4>
-                            <div class="overflow-x-auto">
+                        <div class="bg-white p-4 rounded-lg shadow mt-6">
+                            <h3 class="font-bold mb-2">Current Targets</h3>
+                            <div class="overflow-x-auto" style="max-height: 250px; overflow-y: auto;">
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="bg-gray-50">
                                         <tr>
@@ -406,15 +378,41 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="targetsTable">
-                                        <!-- Targets will be inserted here -->
+                                     
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Recent Data -->
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="font-bold mb-4">Recent Production Data</h3>
+                        <div class="mb-4 flex justify-end">
+                            <input type="text" id="recentSearchInput" class="border px-3 py-2 rounded w-full md:w-64" placeholder="Search Operator, shift, or variant">
+                        </div>
+                        <div class="overflow-x-auto" style="max-height: 300px; overflow-y: auto;">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variant</th> <!-- Tambahkan ini -->
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Input (kg)</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operator</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" id="recentDataTable">
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+
                     <!-- Price Configuration -->
-                    <div class="mb-8">
+                    <div class="mb-8 mt-8">
                         <h3 class="text-lg font-semibold mb-4 border-b pb-2">Price Configuration</h3>
                         <form id="priceForm" class="space-y-4">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -492,7 +490,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" id="usersTable">
-                                        <!-- Users will be inserted here -->
+                                     
                                     </tbody>
                                 </table>
                             </div>
@@ -543,7 +541,7 @@
     let editingTargetId = null;
     let editingUserId = null;
     let outputChart, lossesChart, trendChart;
-    let pricePerKg = 8000; // Default price per kg in Rupiah
+    let pricePerKg = 8000;
 
     // DOM Elements
     const loginPage = document.getElementById('loginPage');
@@ -599,47 +597,47 @@
     document.getElementById('exportEndDate').value = today;
 
     // Update current date time display
-    function updateCurrentDateTime() {
-        const now = new Date();
-        currentDateTime.value = now.toLocaleString();
-    }
-    function updateTargetDate() {
-        const now = new Date();
-        targetDate.value = now.toLocaleString();
-    }
+    // function updateCurrentDateTime() {
+    //     const now = new Date();
+    //     currentDateTime.value = now.toLocaleString();
+    // }
+    // function updateTargetDate() {
+    //     const now = new Date();
+    //     targetDate.value = now.toLocaleString();
+    // }
 
-    function setShiftByCurrentTime() {
-        const now = new Date();
-        const hour = now.getHours();
-        let shift = 'A';
-        if (hour >= 6 && hour < 14) {
-            shift = 'A';
-        } else if (hour >= 14 && hour < 22) {
-            shift = 'B';
-        } else {
-            shift = 'C';
-        }
-        const shiftSelect = document.getElementById('shiftSelect');
-        if (shiftSelect) {
-            shiftSelect.value = shift;
-            fillVariantSelects();
-        }
-        const targetShift = document.getElementById('targetShift');
-        if (targetShift) {
-            targetShift.value = shift;
-        }
-    }
+    // function setShiftByCurrentTime() {
+    //     const now = new Date();
+    //     const hour = now.getHours();
+    //     let shift = 'A';
+    //     if (hour >= 6 && hour < 14) {
+    //         shift = 'A';
+    //     } else if (hour >= 14 && hour < 22) {
+    //         shift = 'B';
+    //     } else {
+    //         shift = 'C';
+    //     }
+    //     const shiftSelect = document.getElementById('shiftSelect');
+    //     if (shiftSelect) {
+    //         shiftSelect.value = shift;
+    //         fillVariantSelects();
+    //     }
+    //     const targetShift = document.getElementById('targetShift');
+    //     if (targetShift) {
+    //         targetShift.value = shift;
+    //     }
+    // }
 
     // Initialize the app
     function initApp() {
-        updateCurrentDateTime();
-        updateTargetDate()
-        setShiftByCurrentTime(); 
-        setInterval(() => {
-            updateCurrentDateTime();
-            updateTargetDate()
-            setShiftByCurrentTime();
-        }, 1000);
+        // updateCurrentDateTime();
+        // updateTargetDate()
+        // setShiftByCurrentTime(); 
+        // setInterval(() => {
+        //     updateCurrentDateTime();
+        //     // updateTargetDate()
+        //     // setShiftByCurrentTime();
+        // }, 1000);
 
         // Check auth state
         auth.onAuthStateChanged(user => {
@@ -699,34 +697,183 @@
         });
     }
 
-    function fillVariantSelects() {
-        const shift = document.getElementById('shiftSelect').value;
-        // Gunakan tanggal yang dipilih user, jika ada
-        const dateStr = selectedDate.value || today;
-        const date = new Date(dateStr);
-        date.setHours(0, 0, 0, 0);
+    let recentProductionData = [];
+    function loadRecentDataAdmin() {
+        recentDataTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">Loading data...</td></tr>';
 
-        db.collection('targets')
-            .where('date', '>=', firebase.firestore.Timestamp.fromDate(date))
-            .where('date', '<=', firebase.firestore.Timestamp.fromDate(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999)))
-            .where('shift', '==', shift)
-            .limit(1)
+        db.collection('production')
+            .orderBy('date', 'desc')
+            .limit(100)
             .get()
             .then(snapshot => {
-                if (!snapshot.empty) {
-                    const target = snapshot.docs[0].data();
-                    variantSelect.value = target.variant;
-                } else {
-                    variantSelect.value = '';
+                if (snapshot.empty) {
+                    recentDataTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">No production data found</td></tr>';
+                    recentProductionData = [];
+                    return;
                 }
+
+                recentProductionData = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    recentProductionData.push({
+                        id: doc.id,
+                        ...data,
+                        date: data.date.toDate()
+                    });
+                });
+
+                renderRecentDataTable(recentProductionData);
             })
-            .catch(err => {
-                console.error('Error fetching target variant:', err);
-                variantSelect.value = '';
+            .catch(error => {
+                console.error("Error loading recent data:", error);
+                recentDataTable.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">Error loading data</td></tr>';
             });
     }
 
-    // Hanya untuk admin panel, tidak mengisi variantSelect input data!
+    function renderRecentDataTable(data) {
+        recentDataTable.innerHTML = '';
+        if (data.length === 0) {
+            recentDataTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">No production data found</td></tr>';
+            return;
+        }
+        data.forEach(item => {
+            const operatorName = item.operatorName || 'Unknown';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.date)}</td>
+                <td class="px-6 py-4 whitespace-nowrap">Shift ${item.shift}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${item.variant || '-'}</td> <!-- Tambahkan ini -->
+                <td class="px-6 py-4 whitespace-nowrap">${item.weight.toLocaleString()} kg</td>
+                <td class="px-6 py-4 whitespace-nowrap">${operatorName}</td>
+                <td class="px-6 py-4 whitespace-nowrap flex gap-2">
+                    <button class="edit-production text-blue-600 hover:text-blue-800 mr-2" data-id="${item.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-production text-red-600 hover:text-red-800" data-id="${item.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            recentDataTable.appendChild(row);
+        });
+
+        // Event listeners for edit/delete
+        document.querySelectorAll('.edit-production').forEach(button => {
+            button.addEventListener('click', e => {
+                const id = e.currentTarget.getAttribute('data-id');
+                editProductionData(id);
+            });
+        });
+        document.querySelectorAll('.delete-production').forEach(button => {
+            button.addEventListener('click', e => {
+                const id = e.currentTarget.getAttribute('data-id');
+                deleteProductionData(id);
+            });
+        });
+    }
+
+    async function showCurrentTargetInfo() {
+        const dateStr = document.getElementById('currentDateTime').value || today;
+        const infoDiv = document.getElementById('currentTargetInfo');
+        infoDiv.innerHTML = `
+            <div class="flex items-center gap-2">
+                <div class="inline-block loading-spinner"></div>
+                <span>Loading target...</span>
+            </div>
+        `;
+        infoDiv.classList.remove('hidden');
+
+        const date = new Date(dateStr);
+        date.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+
+        try {
+            const snapshot = await db.collection('targets')
+                .where('date', '>=', firebase.firestore.Timestamp.fromDate(date))
+                .where('date', '<=', firebase.firestore.Timestamp.fromDate(endOfDay))
+                .get();
+
+            if (snapshot.empty) {
+                infoDiv.innerHTML = '<span class="text-red-600">Belum ada target untuk hari ini.</span>';
+                return;
+            }
+
+            let html = `
+            <div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variant</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Target (kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+            `;
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const tgl = data.date && data.date.toDate ? data.date.toDate() : date;
+                html += `
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">${tgl.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">Shift ${data.shift}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${data.variant}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${data.targetKg.toLocaleString()} kg</td>
+                    </tr>
+                `;
+            });
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            `;
+            infoDiv.innerHTML = html;
+        } catch (err) {
+            infoDiv.innerHTML = '<span class="text-red-600">Gagal mengambil target.</span>';
+        }
+    }
+
+    function fillVariantSelects() {
+        const shift = document.getElementById('shiftSelect').value;
+        const dateStr = document.getElementById('currentDateTime').value || today;
+        const date = new Date(dateStr);
+        date.setHours(0, 0, 0, 0);
+
+        variantSelect.innerHTML = `<option value="">Loading...</option>`;
+        variantSelect.classList.add('input-highlight');
+
+        db.collection('targets')
+        .where('date', '>=', firebase.firestore.Timestamp.fromDate(date))
+        .where('date', '<=', firebase.firestore.Timestamp.fromDate(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999)))
+        .get()
+        .then(snapshot => {
+            const variants = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (!variants.includes(data.variant)) {
+                    variants.push(data.variant);
+                }
+            });
+          
+            if (variants.length > 0) {
+                variantSelect.innerHTML = variants.map(v => `<option value="${v}">${v}</option>`).join('');
+                variantSelect.classList.remove('input-highlight');
+            } else {
+                variantSelect.innerHTML = `<option value="">No variant available for today</option>`;
+                variantSelect.classList.remove('input-highlight');
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching target variant:', err);
+            variantSelect.innerHTML = `<option value="">Error loading variant</option>`;
+            variantSelect.classList.remove('input-highlight');
+        });
+    }
+
+    // only load variants for target select in admin panel
     function loadVariantConfig() {
         if (targetVariantSelect) targetVariantSelect.innerHTML = '';
 
@@ -747,15 +894,15 @@
     }
 
     function setActiveNav(linkId) {
-    // Semua link nav
+    // All link elements
         [dashboardLink, inputDataLink, adminPanelLink].forEach(link => {
             link.classList.remove('bg-gradient-to-r', 'from-gray-800', 'to-green-300');
         });
-        // Aktifkan yang dipilih
+        // Active link
         document.getElementById(linkId).classList.add('bg-gradient-to-r', 'from-gray-800', 'to-green-300');
     }
 
-    // Setelah menambah variant, refresh kedua select
+    // after login, load dashboard data
     if (addVariantBtn && variantInput) {
         addVariantBtn.addEventListener('click', () => {
             const newVariant = variantInput.value.trim();
@@ -778,7 +925,7 @@
             }).then(() => {
                 variantInput.value = '';
                 alert('Variant added successfully!');
-                fillVariantSelects(); // refresh kedua select
+                fillVariantSelects();
                 loadVariantConfig();
             }).catch(error => {
                 alert('Error adding variant: ' + error.message);
@@ -795,7 +942,7 @@
                 value: pricePerKg
             }).then(() => {
                 alert('Price per kg saved successfully!');
-                loadDashboardData(); // Refresh dashboard to update KPI
+                loadDashboardData();
             }).catch(error => {
                 alert('Error saving price: ' + error.message);
             });
@@ -866,6 +1013,8 @@
         inputDataPage.classList.remove('hidden');
         adminPanelPage.classList.add('hidden');
         setActiveNav('inputDataLink');
+        fillVariantSelects();
+        showCurrentTargetInfo();
     });
 
     adminPanelLink.addEventListener('click', e => {
@@ -875,6 +1024,8 @@
         adminPanelPage.classList.remove('hidden');
         loadVariantConfig();
         fillVariantSelects();
+        loadRecentDataAdmin();
+        loadTargets();
         setActiveNav('adminPanelLink');
     });
 
@@ -894,6 +1045,7 @@
         const shift = document.getElementById('shiftSelect').value;
         const variant = document.getElementById('variantSelect').value;
         const weight = parseFloat(document.getElementById('inputWeight').value);
+        const dateStr = document.getElementById('currentDateTime').value || today;
 
         if (!weight || isNaN(weight)) {
             inputError.textContent = 'Please enter a valid weight';
@@ -901,24 +1053,38 @@
             return;
         }
 
-        // Cek apakah target sudah di-set untuk tanggal dan shift ini
-        const now = new Date();
-        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-        const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+        // check if date is valid 
+        const inputDate = new Date(dateStr);
+        inputDate.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate(), 23, 59, 59, 999);
 
         try {
-            const targetSnapshot = await db.collection('targets')
-                .where('date', '>=', firebase.firestore.Timestamp.fromDate(startOfDay))
-                .where('date', '<=', firebase.firestore.Timestamp.fromDate(endOfDay))
-                .where('shift', '==', shift)
-                .limit(1)
-                .get();
+            const inputDate = new Date(dateStr);
+            inputDate.setHours(0, 0, 0, 0);
+            const endOfDay = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate(), 23, 59, 59, 999);
 
-            if (targetSnapshot.empty) {
-                inputError.textContent = 'Target belum di-set untuk shift dan tanggal ini. Silakan hubungi admin.';
+            try {
+                let targetSnapshot = await db.collection('targets')
+                    .where('date', '>=', firebase.firestore.Timestamp.fromDate(inputDate))
+                    .where('date', '<=', firebase.firestore.Timestamp.fromDate(endOfDay))
+                    .where('variant', '==', variant)
+                    .limit(1)
+                    .get();
+
+                if (targetSnapshot.empty) {
+                    inputError.textContent = 'Target belum di-set untuk tanggal, shift, dan variant ini. Silakan hubungi admin.';
+                    inputError.classList.remove('hidden');
+                    return;
+                }
+                inputError.classList.add('hidden');
+                inputSuccess.classList.add('hidden');
+            } catch (err) {
+                inputError.textContent = 'Gagal cek target: ' + err.message;
                 inputError.classList.remove('hidden');
                 return;
             }
+            inputError.classList.add('hidden');
+            inputSuccess.classList.add('hidden');
         } catch (err) {
             inputError.textContent = 'Gagal cek target: ' + err.message;
             inputError.classList.remove('hidden');
@@ -929,7 +1095,7 @@
         submitDataBtn.disabled = true;
 
         const productionData = {
-            date: firebase.firestore.Timestamp.fromDate(now),
+            date: firebase.firestore.Timestamp.fromDate(new Date(dateStr)),
             shift: shift,
             variant: variant,
             weight: weight,
@@ -1149,12 +1315,15 @@
         });
     }
 
+    let productionUnsub = null;
+    let targetsUnsub = null;
+
     // Data Loading Functions
     function loadDashboardData() {
         const range = dateRange.value;
         const date = new Date(selectedDate.value);
         const shift = shiftFilter.value;
-        
+
         // Show loading state
         kpiCards.innerHTML = `
             <div class="col-span-4 text-center py-10">
@@ -1162,168 +1331,155 @@
                 <span class="ml-2">Loading data...</span>
             </div>
         `;
-        
+
         // Calculate date range based on selection
         let startDate, endDate;
-        
+
         if (range === 'daily') {
             startDate = new Date(date);
             startDate.setHours(0, 0, 0, 0);
             endDate = new Date(date);
             endDate.setHours(23, 59, 59, 999);
         } else if (range === 'weekly') {
-            // Get start of week (Sunday)
             startDate = new Date(date);
             startDate.setDate(date.getDate() - date.getDay());
             startDate.setHours(0, 0, 0, 0);
-            
-            // Get end of week (Saturday)
             endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + 6);
             endDate.setHours(23, 59, 59, 999);
         } else { // monthly
-            // Get start of month
             startDate = new Date(date.getFullYear(), date.getMonth(), 1);
             startDate.setHours(0, 0, 0, 0);
-            
-            // Get end of month
             endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
             endDate.setHours(23, 59, 59, 999);
         }
-        
+
+        // Unsubscribe previous listeners if any
+        if (productionUnsub) productionUnsub();
+        if (targetsUnsub) targetsUnsub();
+
         // Query production data
         let productionQuery = db.collection('production')
             .where('date', '>=', firebase.firestore.Timestamp.fromDate(startDate))
             .where('date', '<=', firebase.firestore.Timestamp.fromDate(endDate));
-            
         if (shift !== 'all') {
             productionQuery = productionQuery.where('shift', '==', shift);
         }
-        
+
         // Query targets data
         let targetsQuery = db.collection('targets')
             .where('date', '>=', firebase.firestore.Timestamp.fromDate(startDate))
             .where('date', '<=', firebase.firestore.Timestamp.fromDate(endDate));
-            
         if (shift !== 'all') {
             targetsQuery = targetsQuery.where('shift', '==', shift);
         }
-        
-        Promise.all([
-            productionQuery.get(),
-            targetsQuery.get()
-        ]).then(([productionSnapshot, targetsSnapshot]) => {
-            // Process production data
-            const productionData = [];
-            let totalOutput = 0;
-            
-            productionSnapshot.forEach(doc => {
-                const data = doc.data();
-                productionData.push({
-                    id: doc.id,
-                    ...data,
-                    date: data.date.toDate()
+
+        // Listen for realtime updates
+        productionUnsub = productionQuery.onSnapshot(productionSnapshot => {
+            targetsUnsub = targetsQuery.onSnapshot(targetsSnapshot => {
+                // Process production data
+                const productionData = [];
+                let totalOutput = 0;
+
+                productionSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    productionData.push({
+                        id: doc.id,
+                        ...data,
+                        date: data.date.toDate()
+                    });
+                    totalOutput += data.weight || 0;
                 });
-                totalOutput += data.weight || 0;
-            });
-            
-            // Process targets data
-            const targetsData = [];
-            let totalTarget = 0;
-            
-            targetsSnapshot.forEach(doc => {
-                const data = doc.data();
-                targetsData.push({
-                    id: doc.id,
-                    ...data,
-                    date: data.date.toDate()
+
+                // Process targets data
+                const targetsData = [];
+                let totalTarget = 0;
+
+                targetsSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    targetsData.push({
+                        id: doc.id,
+                        ...data,
+                        date: data.date.toDate()
+                    });
+                    totalTarget += data.targetKg || 0;
                 });
-                totalTarget += data.targetKg || 0;
+
+                // ...rest of KPI and chart update code...
+                const totalLosses = totalTarget > 0 ? totalTarget - totalOutput : 0;
+                const lossesPercentage = totalTarget > 0 ? (totalLosses / totalTarget * 100) : 0;
+                const efficiency = totalTarget > 0 ? (totalOutput / totalTarget * 100) : 0;
+                const lossesInRupiah = totalLosses * pricePerKg;
+
+                kpiCards.innerHTML = `
+                    <!-- Target Mixing -->
+                    <div class="bg-gray-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-100">Target Mixing</p>
+                                <h3 class="text-2xl font-bold text-gray-100">${totalTarget.toLocaleString()} kg</h3>
+                            </div>
+                            <div class="bg-gray-800 p-2 rounded-full">
+                                <i class="fas fa-bullseye text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="h-2 bg-gray-200 rounded-full">
+                                <div class="h-2 bg-blue-500 rounded-full" style="width: ${efficiency}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Total Output -->
+                    <div class="bg-gray-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-100">Total Output</p>
+                                <h3 class="text-2xl font-bold text-gray-100">${totalOutput.toLocaleString()} kg</h3>
+                            </div>
+                            <div class="bg-gray-800 p-2 rounded-full">
+                                <i class="fas fa-boxes text-green-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-gray-100">
+                            <span class="text-green-500">${efficiency.toFixed(1)}%</span> efficiency
+                        </div>
+                    </div>
+                    <!-- Total Losses -->
+                    <div class="bg-gray-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-100">Total Losses</p>
+                                <h3 class="text-2xl font-bold text-gray-100">${totalLosses.toLocaleString()} kg <span class="text-sm">(${lossesPercentage.toFixed(1)}%)</span></h3>
+                            </div>
+                            <div class="bg-gray-800 p-2 rounded-full">
+                                <i class="fas fa-exclamation-triangle text-red-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-gray-100">
+                            <span class="text-red-500">${lossesPercentage.toFixed(1)}%</span> of target
+                        </div>
+                    </div>
+                    <!-- Losses in Rupiah & Efficiency -->
+                    <div class="bg-gray-800 p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-100">Losses (Rupiah)</p>
+                                <h3 class="text-xl font-bold text-red-300">Rp ${lossesInRupiah.toLocaleString()}</h3>
+                                <p class="text-sm text-gray-400 mt-2">Efficiency: <span class="text-green-400">${efficiency.toFixed(1)}%</span></p>
+                            </div>
+                            <div class="bg-gray-800 p-2 rounded-full">
+                                <i class="fas fa-coins text-yellow-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                createCharts(productionData, targetsData, range);
+
+                document.getElementById('trendOutput').textContent =
+                    `Showing ${range} data from ${formatDateOnly(startDate)} to ${formatDateOnly(endDate)}`;
             });
-            
-            // Calculate KPIs
-            const totalLosses = totalTarget > 0 ? totalTarget - totalOutput : 0;
-            const lossesPercentage = totalTarget > 0 ? (totalLosses / totalTarget * 100) : 0;
-            const efficiency = totalTarget > 0 ? (totalOutput / totalTarget * 100) : 0;
-            
-            // Calculate losses in Rupiah using configured price
-            const lossesInRupiah = totalLosses * pricePerKg;
-            
-            // Update KPI cards
-            kpiCards.innerHTML = `
-                <!-- Target Mixing -->
-                <div class="bg-gray-800 p-4 rounded-lg shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-gray-100">Target Mixing</p>
-                            <h3 class="text-2xl font-bold text-gray-100">${totalTarget.toLocaleString()} kg</h3>
-                        </div>
-                        <div class="bg-gray-800 p-2 rounded-full">
-                            <i class="fas fa-bullseye text-blue-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <div class="h-2 bg-gray-200 rounded-full">
-                            <div class="h-2 bg-blue-500 rounded-full" style="width: ${efficiency}%"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Total Output -->
-                <div class="bg-gray-800 p-4 rounded-lg shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-gray-100">Total Output</p>
-                            <h3 class="text-2xl font-bold text-gray-100">${totalOutput.toLocaleString()} kg</h3>
-                        </div>
-                        <div class="bg-gray-800 p-2 rounded-full">
-                            <i class="fas fa-boxes text-green-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-2 text-sm text-gray-100">
-                        <span class="text-green-500">${efficiency.toFixed(1)}%</span> efficiency
-                    </div>
-                </div>
-                
-                <!-- Total Losses -->
-                <div class="bg-gray-800 p-4 rounded-lg shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-gray-100">Total Losses</p>
-                            <h3 class="text-2xl font-bold text-gray-100">${totalLosses.toLocaleString()} kg <span class="text-sm">(${lossesPercentage.toFixed(1)}%)</span></h3>
-                        </div>
-                        <div class="bg-gray-800 p-2 rounded-full">
-                            <i class="fas fa-exclamation-triangle text-red-500"></i>
-                        </div>
-                    </div>
-                    <div class="mt-2 text-sm text-gray-100">
-                        <span class="text-red-500">${lossesPercentage.toFixed(1)}%</span> of target
-                    </div>
-                </div>
-                
-                <!-- Losses in Rupiah & Efficiency -->
-                <div class="bg-gray-800 p-4 rounded-lg shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-gray-100">Losses (Rupiah)</p>
-                            <h3 class="text-xl font-bold text-red-300">Rp ${lossesInRupiah.toLocaleString()}</h3>
-                            <p class="text-sm text-gray-400 mt-2">Efficiency: <span class="text-green-400">${efficiency.toFixed(1)}%</span></p>
-                        </div>
-                        <div class="bg-gray-800 p-2 rounded-full">
-                            <i class="fas fa-coins text-yellow-400"></i>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Create charts
-            createCharts(productionData, targetsData, range);
-            
-            // Update trend text
-            document.getElementById('trendOutput').textContent = 
-                `Showing ${range} data from ${formatDateOnly(startDate)} to ${formatDateOnly(endDate)}`;
-        }).catch(error => {
-            console.error("Error loading dashboard data:", error);
+        }, error => {
             kpiCards.innerHTML = `
                 <div class="col-span-4 text-center py-10 text-red-500">
                     Error loading data. Please try again.
@@ -1331,7 +1487,6 @@
             `;
         });
     }
-
     function createCharts(productionData, targetsData, range) {
         // Group data by date for the trend chart
         const groupedData = {};
@@ -1520,8 +1675,16 @@
     }
 
     function loadRecentData() {
-        recentDataTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">Loading data...</td></tr>';
-        
+        // load recent production data
+        recentDataTable.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center py-4">
+                    <div class="inline-block loading-spinner"></div>
+                    <span class="ml-2">Loading data...</span>
+                </td>
+            </tr>
+        `;
+
         db.collection('production')
             .orderBy('date', 'desc')
             .limit(10)
@@ -1531,14 +1694,14 @@
                     recentDataTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">No production data found</td></tr>';
                     return;
                 }
-                
+
                 recentDataTable.innerHTML = '';
-                
+
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     const date = data.date.toDate();
                     const operatorName = data.operatorName || 'Unknown';
-                    
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap">${formatDate(date)}</td>
@@ -1550,14 +1713,21 @@
                 });
             })
             .catch(error => {
-                console.error("Error loading recent data:", error);
                 recentDataTable.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-500">Error loading data</td></tr>';
             });
     }
 
     function loadTargets() {
-        targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">Loading targets...</td></tr>';
-        
+        // load targets data
+        targetsTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-4">
+                    <div class="inline-block loading-spinner"></div>
+                    <span class="ml-2">Loading targets...</span>
+                </td>
+            </tr>
+        `;
+
         db.collection('targets')
             .orderBy('date', 'desc')
             .get()
@@ -1566,23 +1736,26 @@
                     targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">No targets found</td></tr>';
                     return;
                 }
-                
+
                 targetsTable.innerHTML = '';
-                
+
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     const date = data.date.toDate();
-                    
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="px-6 py-4 whitespace-nowrap">${formatDateOnly(date)}</td>
                         <td class="px-6 py-4 whitespace-nowrap">Shift ${data.shift}</td>
                         <td class="px-6 py-4 whitespace-nowrap">Variant ${data.variant}</td>
                         <td class="px-6 py-4 whitespace-nowrap">${data.targetKg.toLocaleString()} kg</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <button class="edit-target text-blue-600 hover:text-blue-800 mr-2" data-id="${doc.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
+                        <td class="px-6 py-4 whitespace-nowrap flex gap-2">
+                            ${data.status === 'done' 
+                                ? `<span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Selesai</span>`
+                                : `<button class="done-target text-green-600 hover:text-green-800 mr-2" data-id="${doc.id}">
+                                    <i class="fas fa-check"></i> Selesai
+                                </button>`
+                            }
                             <button class="delete-target text-red-600 hover:text-red-800" data-id="${doc.id}">
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -1591,11 +1764,12 @@
                     targetsTable.appendChild(row);
                 });
                 
-                // Add event listeners to edit buttons
-                document.querySelectorAll('.edit-target').forEach(button => {
+                // Add event listeners to done buttons
+                document.querySelectorAll('.done-target').forEach(button => {
                     button.addEventListener('click', e => {
                         const targetId = e.currentTarget.getAttribute('data-id');
-                        editTarget(targetId);
+                        db.collection('targets').doc(targetId).update({ status: 'done' })
+                            .then(() => loadTargets());
                     });
                 });
                 
@@ -1608,13 +1782,19 @@
                 });
             })
             .catch(error => {
-                console.error("Error loading targets:", error);
-                targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">Error loading targets</td></tr>';
+            targetsTable.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">Error loading targets</td></tr>';
             });
     }
 
     function loadUsers() {
-        usersTable.innerHTML = '<tr><td colspan="4" class="text-center py-4">Loading users...</td></tr>';
+        usersTable.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center py-4">
+                    <div class="inline-block loading-spinner"></div>
+                    <span class="ml-2">Loading users...</span>
+                </td>
+            </tr>
+        `;
         
         db.collection('users')
             .get()
@@ -1663,8 +1843,7 @@
                 });
             })
             .catch(error => {
-                console.error("Error loading users:", error);
-                usersTable.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-500">Error loading users</td></tr>';
+            usersTable.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-500">Error loading users</td></tr>';
             });
     }
 
@@ -1713,7 +1892,6 @@
                     document.getElementById('userEmail').value = data.email;
                     document.getElementById('userRole').value = data.role;
                     
-                    // Don't pre-fill password for security
                     document.getElementById('userPassword').value = '';
                     
                     editingUserId = userId;
@@ -1751,9 +1929,43 @@
         initApp();
         loadVariantConfig();
         fillVariantSelects();
-            if (document.getElementById('shiftSelect')) {
+
+        if (document.getElementById('shiftSelect')) {
             document.getElementById('shiftSelect').addEventListener('change', fillVariantSelects);
         }
+        if (document.getElementById('currentDateTime')) {
+            document.getElementById('currentDateTime').addEventListener('change', fillVariantSelects);
+        }
+        if (document.getElementById('variantSelect')) {
+            document.getElementById('variantSelect').addEventListener('change', () => {
+            });
+        }
+        if (document.getElementById('shiftSelect')) {
+    document.getElementById('shiftSelect').addEventListener('change', showCurrentTargetInfo);
+    }
+    if (document.getElementById('currentDateTime')) {
+        document.getElementById('currentDateTime').addEventListener('change', showCurrentTargetInfo);
+    }
+    if (document.getElementById('variantSelect')) {
+        document.getElementById('variantSelect').addEventListener('change', showCurrentTargetInfo);
+    }
+
+    const searchInput = document.getElementById('recentSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const keyword = this.value.trim().toLowerCase();
+            const filtered = recentProductionData.filter(item =>
+                (item.operatorName || '').toLowerCase().includes(keyword) ||
+                (item.shift || '').toLowerCase().includes(keyword) ||
+                (item.variant || '').toLowerCase().includes(keyword)
+            );
+            renderRecentDataTable(filtered);
+        });
+    }
+        loadDashboardData();
+        loadRecentData();
+        loadTargets();
+        loadUsers();
     });
     </script>
 </body>
