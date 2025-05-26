@@ -58,6 +58,7 @@
     document.getElementById('targetDate').value = today;
     document.getElementById('exportStartDate').value = today;
     document.getElementById('exportEndDate').value = today;
+    document.getElementById('currentDateTime').value = today;
 
     // Update current date time display
     // function updateCurrentDateTime() {
@@ -196,7 +197,7 @@
     function renderRecentDataTable(data) {
         recentDataTable.innerHTML = '';
         if (data.length === 0) {
-            recentDataTable.innerHTML = '<tr><td colspan="5" class="text-center py-4">No production data found</td></tr>';
+            recentDataTable.innerHTML = '<tr><td colspan="6" class="text-center py-4">No production data found</td></tr>';
             return;
         }
         data.forEach(item => {
@@ -205,7 +206,7 @@
             row.innerHTML = `
                 <td class="px-6 py-4 whitespace-nowrap">${formatDate(item.date)}</td>
                 <td class="px-6 py-4 whitespace-nowrap">Shift ${item.shift}</td>
-                <td class="px-6 py-4 whitespace-nowrap">${item.variant || '-'}</td> <!-- Tambahkan ini -->
+                <td class="px-6 py-4 whitespace-nowrap">${item.variant || '-'}</td>
                 <td class="px-6 py-4 whitespace-nowrap">${item.weight.toLocaleString()} kg</td>
                 <td class="px-6 py-4 whitespace-nowrap">${operatorName}</td>
                 <td class="px-6 py-4 whitespace-nowrap flex gap-2">
@@ -220,17 +221,41 @@
             recentDataTable.appendChild(row);
         });
 
-        // Event listeners for edit/delete
+        // Event listeners for edit
         document.querySelectorAll('.edit-production').forEach(button => {
-            button.addEventListener('click', e => {
+            button.addEventListener('click', async e => {
                 const id = e.currentTarget.getAttribute('data-id');
-                editProductionData(id);
+                // Ambil data dari Firestore
+                const doc = await db.collection('production').doc(id).get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    // Isi form input data dengan data yang dipilih
+                    document.getElementById('currentDateTime').value = data.date.toDate().toISOString().split('T')[0];
+                    document.getElementById('shiftSelect').value = data.shift;
+                    await fillVariantSelects(); // Pastikan variant sudah terisi
+                    document.getElementById('variantSelect').value = data.variant;
+                    document.getElementById('inputWeight').value = data.weight;
+                    // Simpan id yang sedang diedit
+                    window.editingProductionId = id;
+                    // Scroll ke form input
+                    inputDataPage.classList.remove('hidden');
+                    dashboardPage.classList.add('hidden');
+                    adminPanelPage.classList.add('hidden');
+                    setActiveNav('inputDataLink');
+                }
             });
         });
+
+        // Event listeners for delete
         document.querySelectorAll('.delete-production').forEach(button => {
-            button.addEventListener('click', e => {
+            button.addEventListener('click', async e => {
                 const id = e.currentTarget.getAttribute('data-id');
-                deleteProductionData(id);
+                if (confirm('Are you sure you want to delete this production data?')) {
+                    await db.collection('production').doc(id).delete();
+                    loadRecentDataAdmin();
+                    loadRecentData();
+                    loadDashboardData();
+                }
             });
         });
     }
@@ -356,6 +381,154 @@
         });
     }
 
+    let editingVariantName = null;
+    function showRecentVariants() {
+        const list = document.getElementById('recentVariantList');
+        if (!list) return;
+        list.innerHTML = '<li class="text-gray-400">Loading...</li>';
+        db.collection('config').doc('variant').get().then(doc => {
+            if (doc.exists && Array.isArray(doc.data().variants)) {
+                const variants = doc.data().variants;
+                if (variants.length === 0) {
+                    list.innerHTML = '<li class="text-gray-400">No variants found.</li>';
+                } else {
+                    list.innerHTML = '';
+                    variants.slice(-10).reverse().forEach(variant => {
+                        const tr = document.createElement('tr');
+                       tr.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap">${variant}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button class="edit-variant text-blue-600 hover:text-blue-800 mr-2" data-variant="${encodeURIComponent(variant)}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete-variant text-red-600 hover:text-red-800" data-variant="${encodeURIComponent(variant)}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                        recentVariantList.appendChild(tr);
+                                            });
+
+                    // Edit event
+                    list.querySelectorAll('.edit-variant').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            editingVariantName = decodeURIComponent(this.getAttribute('data-variant'));
+                            document.getElementById('variantName').value = editingVariantName;
+                            document.getElementById('addVariantBtn').classList.add('hidden');
+                            document.getElementById('updateVariantBtn').classList.remove('hidden');
+                            document.getElementById('cancelVariantBtn').classList.remove('hidden');
+                        });
+                    });
+
+                    // Delete event
+                    list.querySelectorAll('.delete-variant').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const delVariant = decodeURIComponent(this.getAttribute('data-variant'));
+                            if (confirm(`Delete variant "${delVariant}"? Data with this variant will not be deleted.`)) {
+                                db.collection('config').doc('variant').get().then(doc => {
+                                    if (doc.exists && Array.isArray(doc.data().variants)) {
+                                        let variants = doc.data().variants.filter(v => v !== delVariant);
+                                        db.collection('config').doc('variant').set({ variants }, { merge: true })
+                                            .then(() => {
+                                                editingVariantName = null;
+                                                showRecentVariants();
+                                                loadVariantConfig();
+                                                fillVariantSelects();
+                                                alert('Variant deleted!');
+                                            });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            } else {
+                list.innerHTML = '<li class="text-gray-400">No variants found.</li>';
+            }
+        }).catch(() => {
+            list.innerHTML = '<li class="text-red-500">Error loading variants.</li>';
+        });
+    }
+
+    // Update Variant
+    const updateVariantBtn = document.createElement('button');
+    updateVariantBtn.type = 'button';
+    updateVariantBtn.id = 'updateVariantBtn';
+    updateVariantBtn.className = 'px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 hidden';
+    updateVariantBtn.textContent = 'Update Variant';
+
+    const cancelVariantBtn = document.createElement('button');
+    cancelVariantBtn.type = 'button';
+    cancelVariantBtn.id = 'cancelVariantBtn';
+    cancelVariantBtn.className = 'px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 hidden';
+    cancelVariantBtn.textContent = 'Cancel';
+
+    // Bungkus tombol dalam div flex gap-2
+    const variantBtnGroup = document.createElement('div');
+    variantBtnGroup.className = 'flex gap-2 mt-2';
+    variantBtnGroup.appendChild(updateVariantBtn);
+    variantBtnGroup.appendChild(cancelVariantBtn);
+
+    const variantForm = document.getElementById('variantForm');
+    variantForm.appendChild(variantBtnGroup);
+
+    updateVariantBtn.addEventListener('click', function () {
+        const newVariant = document.getElementById('variantName').value.trim();
+        if (!editingVariantName) return;
+        if (!newVariant) {
+            alert('Please enter a valid variant name');
+            return;
+        }
+        db.collection('config').doc('variant').get().then(doc => {
+            let variants = [];
+            if (doc.exists && Array.isArray(doc.data().variants)) {
+                variants = doc.data().variants;
+            }
+            if (variants.includes(newVariant) && newVariant !== editingVariantName) {
+                alert('Variant already exists!');
+                return;
+            }
+            variants = variants.map(v => v === editingVariantName ? newVariant : v);
+            db.collection('config').doc('variant').set({ variants }, { merge: true })
+                .then(() => {
+                    updateVariantNameEverywhere(editingVariantName, newVariant);
+                    document.getElementById('variantName').value = '';
+                    editingVariantName = null;
+                    updateVariantBtn.classList.add('hidden');
+                    cancelVariantBtn.classList.add('hidden');
+                    document.getElementById('addVariantBtn').classList.remove('hidden');
+                    showRecentVariants();
+                    loadVariantConfig();
+                    fillVariantSelects();
+                    alert('Variant updated!');
+                });
+        });
+    });
+
+    cancelVariantBtn.addEventListener('click', function () {
+        document.getElementById('variantName').value = '';
+        editingVariantName = null;
+        updateVariantBtn.classList.add('hidden');
+        cancelVariantBtn.classList.add('hidden');
+        document.getElementById('addVariantBtn').classList.remove('hidden');
+    });
+
+    // Helper: update variant name in all targets & production
+    function updateVariantNameEverywhere(oldVariant, newVariant) {
+        // Update in targets
+        db.collection('targets').where('variant', '==', oldVariant).get().then(snapshot => {
+            snapshot.forEach(doc => {
+                doc.ref.update({ variant: newVariant });
+            });
+        });
+        // Update in production
+        db.collection('production').where('variant', '==', oldVariant).get().then(snapshot => {
+            snapshot.forEach(doc => {
+                doc.ref.update({ variant: newVariant });
+            });
+        });
+    }
+
     function setActiveNav(linkId) {
     // All link elements
         [dashboardLink, inputDataLink, adminPanelLink].forEach(link => {
@@ -390,6 +563,7 @@
                 alert('Variant added successfully!');
                 fillVariantSelects();
                 loadVariantConfig();
+                showRecentVariants();
             }).catch(error => {
                 alert('Error adding variant: ' + error.message);
             });
@@ -488,6 +662,7 @@
         loadVariantConfig();
         fillVariantSelects();
         loadRecentDataAdmin();
+        showRecentVariants();
         loadTargets();
         setActiveNav('adminPanelLink');
     });
@@ -536,6 +711,13 @@
 
                 if (targetSnapshot.empty) {
                     inputError.textContent = 'Target belum di-set untuk tanggal, shift, dan variant ini. Silakan hubungi admin.';
+                    inputError.classList.remove('hidden');
+                    return;
+                }
+                // Pengecekan status done
+                const targetData = targetSnapshot.docs[0].data();
+                if (targetData.status === 'done') {
+                    inputError.textContent = 'Target ini sudah selesai/done. Tidak bisa input data lagi.';
                     inputError.classList.remove('hidden');
                     return;
                 }
@@ -592,29 +774,56 @@
     });
 
     // Target Form
-    targetForm.addEventListener('submit', e => {
+    targetForm.addEventListener('submit', async e => {
         e.preventDefault();
-        
+
         const date = document.getElementById('targetDate').value;
         const shift = document.getElementById('targetShift').value;
         const variant = document.getElementById('targetVariant').value;
         const targetKg = parseFloat(document.getElementById('targetKg').value);
-        
+
         if (!date || !shift || !variant || !targetKg || isNaN(targetKg)) {
             alert('Please fill all fields with valid values');
             return;
         }
-        
+
         setTargetBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Saving...';
         setTargetBtn.disabled = true;
-        
+
+        // Cek apakah sudah ada target di hari, shift, dan variant yang sama
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        try {
+            const snapshot = await db.collection('targets')
+                .where('date', '>=', firebase.firestore.Timestamp.fromDate(startOfDay))
+                .where('date', '<=', firebase.firestore.Timestamp.fromDate(endOfDay))
+                .where('shift', '==', shift)
+                .where('variant', '==', variant)
+                .get();
+
+            if (!editingTargetId && !snapshot.empty) {
+                alert('Target untuk tanggal, shift, dan variant ini sudah ada. Silakan edit target yang sudah ada atau pilih kombinasi lain.');
+                setTargetBtn.innerHTML = 'Set Target';
+                setTargetBtn.disabled = false;
+                return;
+            }
+        } catch (err) {
+            alert('Gagal cek duplikasi target: ' + err.message);
+            setTargetBtn.innerHTML = 'Set Target';
+            setTargetBtn.disabled = false;
+            return;
+        }
+
         const targetData = {
             date: firebase.firestore.Timestamp.fromDate(new Date(date)),
             shift: shift,
             variant: variant,
             targetKg: targetKg
         };
-        
+
         if (editingTargetId) {
             // Update existing target
             db.collection('targets').doc(editingTargetId).update(targetData)
@@ -1219,12 +1428,22 @@
                                     <i class="fas fa-check"></i> Selesai
                                 </button>`
                             }
+                            <button class="edit-target text-blue-600 hover:text-blue-800 mr-2" data-id="${doc.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
                             <button class="delete-target text-red-600 hover:text-red-800" data-id="${doc.id}">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
                     `;
                     targetsTable.appendChild(row);
+                });
+
+                document.querySelectorAll('.edit-target').forEach(button => {
+                    button.addEventListener('click', e => {
+                        const targetId = e.currentTarget.getAttribute('data-id');
+                        editTarget(targetId);
+                    });
                 });
                 
                 // Add event listeners to done buttons
