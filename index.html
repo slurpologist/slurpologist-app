@@ -124,6 +124,24 @@
                 transform: translateX(0);
             }
         }
+
+      @media (max-width: 480px) {
+            .writerLoop {
+                font-size: 1.5rem !important; /* Lebih kecil di layar kecil */
+                margin-left: 0.5rem !important;
+                word-break: break-word;
+                max-width: 90vw;
+                text-align: left;
+            }
+            .glow-text {
+                text-shadow: 0 0 5px rgba(59, 130, 246, 0.6);
+            }
+            .floating .flex.items-center.justify-center.mb-8 {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+      
         .chart-container {
             position: relative;
             height: 300px;
@@ -246,7 +264,9 @@
             <div class="p-4 flex items-center justify-between border-b border-gray-700">
                 <div class="flex items-center space-x-2">
                     <i class="fas fa-industry text-2xl text-blue-400"></i>
-                    <h1 class="writerLoop text-xl font-bold">SLURPOLOGIST</h1>
+                    <h1 class="writerLoop text-xl sm:text-1xl md:text-1xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 glow-text">
+                        SLURPOLOGIST
+                    </h1>
                 </div>
                 <button id="closeSidebar" class="text-gray-400 hover:text-white focus:outline-none sm:hidden">
                     <i class="fas fa-times text-lg"></i>
