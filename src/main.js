@@ -16,7 +16,6 @@
     const adminPanelLink = document.getElementById('adminPanelLink');
     const dashboardLink = document.getElementById('dashboardLink');
     const inputDataLink = document.getElementById('inputDataLink');
-    const adminPanelLinkNav = document.getElementById('adminPanelLink');
     const dashboardPage = document.getElementById('dashboardPage');
     const inputDataPage = document.getElementById('inputDataPage');
     const adminPanelPage = document.getElementById('adminPanelPage');
@@ -60,95 +59,69 @@
     document.getElementById('exportEndDate').value = today;
     document.getElementById('currentDateTime').value = today;
 
-    // Update current date time display
-    // function updateCurrentDateTime() {
-    //     const now = new Date();
-    //     currentDateTime.value = now.toLocaleString();
-    // }
-    // function updateTargetDate() {
-    //     const now = new Date();
-    //     targetDate.value = now.toLocaleString();
-    // }
-
-    // function setShiftByCurrentTime() {
-    //     const now = new Date();
-    //     const hour = now.getHours();
-    //     let shift = 'A';
-    //     if (hour >= 6 && hour < 14) {
-    //         shift = 'A';
-    //     } else if (hour >= 14 && hour < 22) {
-    //         shift = 'B';
-    //     } else {
-    //         shift = 'C';
-    //     }
-    //     const shiftSelect = document.getElementById('shiftSelect');
-    //     if (shiftSelect) {
-    //         shiftSelect.value = shift;
-    //         fillVariantSelects();
-    //     }
-    //     const targetShift = document.getElementById('targetShift');
-    //     if (targetShift) {
-    //         targetShift.value = shift;
-    //     }
-    // }
 
     // Initialize the app
     function initApp() {
-        // updateCurrentDateTime();
-        // updateTargetDate()
-        // setShiftByCurrentTime(); 
-        // setInterval(() => {
-        //     updateCurrentDateTime();
-        //     // updateTargetDate()
-        //     // setShiftByCurrentTime();
-        // }, 1000);
 
         // Check auth state
         auth.onAuthStateChanged(user => {
-            if (user) {
-                currentUser = user;
-                loginPage.classList.add('hidden');
-                appContainer.classList.remove('hidden');
-                
-                // Reset nav visibility
-                dashboardLink.classList.remove('hidden');
-                inputDataLink.classList.remove('hidden');
-                adminPanelLink.classList.remove('hidden');
+        if (user) {
+            currentUser = user;
+            let displayName = user.displayName;
 
-                // Check user role
+            // Ambil nama dari Firestore jika displayName kosong
+            if (!displayName) {
                 db.collection('users').doc(user.uid).get().then(doc => {
-                    if (doc.exists) {
-                        const role = doc.data().role;
-                        if (role === 'viewer') {
-                            // Hanya dashboard & logout
-                            dashboardLink.classList.remove('hidden');
-                            inputDataLink.classList.add('hidden');
-                            adminPanelLink.classList.add('hidden');
-                        } else if (role === 'operator') {
-                            // Dashboard, input data & logout
-                            dashboardLink.classList.remove('hidden');
-                            inputDataLink.classList.remove('hidden');
-                            adminPanelLink.classList.add('hidden');
-                        } else if (role === 'admin') {
-                            // Semua akses
-                            dashboardLink.classList.remove('hidden');
-                            inputDataLink.classList.remove('hidden');
-                            adminPanelLink.classList.remove('hidden');
-                            loadPriceConfig();
-                        }
+                    if (doc.exists && doc.data().name) {
+                        displayName = doc.data().name;
+                    } else {
+                        displayName = user.email;
                     }
+                    document.getElementById('currentUserName').textContent = `Hallo: ${displayName}`;
                 });
-
-                loadDashboardData();
-                loadRecentData();
-                loadTargets();
-                loadUsers();
             } else {
-                currentUser = null;
-                loginPage.classList.remove('hidden');
-                appContainer.classList.add('hidden');
+                document.getElementById('currentUserName').textContent = `Hallo: ${displayName}`;
             }
-        });
+
+            loginPage.classList.add('hidden');
+            appContainer.classList.remove('hidden');           
+
+            // Check user role
+            db.collection('users').doc(user.uid).get().then(doc => {
+                if (doc.exists) {
+                    const role = doc.data().role;
+                    if (role === 'viewer') {
+                        // Hanya dashboard & logout
+                        dashboardLink.classList.remove('hidden');
+                        inputDataLink.classList.add('hidden');
+                        adminPanelLink.classList.add('hidden');
+                    } else if (role === 'operator') {
+                        // Dashboard, input data & logout
+                        dashboardLink.classList.remove('hidden');
+                        inputDataLink.classList.remove('hidden');
+                        adminPanelLink.classList.add('hidden');
+                    } else if (role === 'admin') {
+                        // Semua akses
+                        dashboardLink.classList.remove('hidden');
+                        inputDataLink.classList.remove('hidden');
+                        adminPanelLink.classList.remove('hidden');
+                        loadPriceConfig();
+                    }
+                }
+            });
+
+            loadDashboardData();
+            loadRecentData();
+            loadTargets();
+            loadUsers();
+        } else {
+            currentUser = null;
+            loginPage.classList.remove('hidden');
+            appContainer.classList.add('hidden');
+            // Kosongkan nama user saat logout
+            document.getElementById('currentUserName').textContent = '';
+        }
+    });
     }
 
     // Load price configuration
@@ -857,84 +830,61 @@
 
     // User Form
     userForm.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        const name = document.getElementById('userName').value;
-        const email = document.getElementById('userEmail').value;
-        const password = document.getElementById('userPassword').value;
-        const role = document.getElementById('userRole').value;
-        
-        if (!name || !email || !role || (!editingUserId && !password)) {
-            alert('Please fill all required fields');
-            return;
-        }
-        
-        addUserBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Saving...';
-        addUserBtn.disabled = true;
-        
-        const userData = {
-            name: name,
-            email: email,
-            role: role
-        };
-        
-        if (editingUserId) {
-            // Update existing user
-            if (password) {
-                // Update password if provided
-                auth.currentUser.updatePassword(password)
-                    .then(() => {
-                        return db.collection('users').doc(editingUserId).update(userData);
-                    })
-                    .then(() => {
-                        resetUserForm();
-                        loadUsers();
-                        addUserBtn.innerHTML = 'Add User';
-                        addUserBtn.disabled = false;
-                    })
-                    .catch(error => {
-                        alert(error.message);
-                        addUserBtn.innerHTML = 'Add User';
-                        addUserBtn.disabled = false;
-                    });
-            } else {
-                // Just update user data without changing password
-                db.collection('users').doc(editingUserId).update(userData)
-                    .then(() => {
-                        resetUserForm();
-                        loadUsers();
-                        addUserBtn.innerHTML = 'Add User';
-                        addUserBtn.disabled = false;
-                    })
-                    .catch(error => {
-                        alert(error.message);
-                        addUserBtn.innerHTML = 'Add User';
-                        addUserBtn.disabled = false;
-                    });
-            }
-        } else {
-            // Create new user
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(userCredential => {
-                    return db.collection('users').doc(userCredential.user.uid).set({
-                        name: name,
-                        email: email,
-                        role: role
-                    });
-                })
-                .then(() => {
-                    resetUserForm();
-                    loadUsers();
-                    addUserBtn.innerHTML = 'Add User';
-                    addUserBtn.disabled = false;
-                })
-                .catch(error => {
-                    alert(error.message);
-                    addUserBtn.innerHTML = 'Add User';
-                    addUserBtn.disabled = false;
-                });
-        }
-    });
+    e.preventDefault();
+
+    const name = document.getElementById('userName').value;
+    const email = document.getElementById('userEmail').value;
+    const password = document.getElementById('userPassword').value;
+    const role = document.getElementById('userRole').value;
+
+    if (!name || !email || !role || (!editingUserId && !password)) {
+        alert('Please fill all required fields');
+        return;
+    }
+
+    addUserBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Saving...';
+    addUserBtn.disabled = true;
+
+    const userData = {
+        name: name,
+        email: email,
+        role: role
+    };
+
+    if (editingUserId) {
+        // Update existing user
+        db.collection('users').doc(editingUserId).update(userData)
+            .then(() => {
+                resetUserForm();
+                loadUsers();
+                addUserBtn.innerHTML = 'Add User';
+                addUserBtn.disabled = false;
+            })
+            .catch(error => {
+                alert(error.message);
+                addUserBtn.innerHTML = 'Add User';
+                addUserBtn.disabled = false;
+            });
+    } else {
+        // Create new user in Auth, then Firestore with same UID
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const uid = userCredential.user.uid;
+                return db.collection('users').doc(uid).set(userData);
+            })
+            .then(() => {
+                resetUserForm();
+                loadUsers();
+                addUserBtn.innerHTML = 'Add User';
+                addUserBtn.disabled = false;
+            })
+            .catch(error => {
+                alert(error.message);
+                addUserBtn.innerHTML = 'Add User';
+                addUserBtn.disabled = false;
+            });
+    }
+});
 
     // Cancel Target Edit
     cancelTargetBtn.addEventListener('click', () => {
@@ -1304,9 +1254,13 @@
         
         // Daily Trend Chart
         const trendCtx = document.getElementById('trendChart').getContext('2d');
-        
+
         if (trendChart) trendChart.destroy();
-        
+
+        // losses data calculation
+        const lossesData = sortedData.map(item => Math.max(item.target - item.output, 0));
+        const lossesPriceData = lossesData.map(loss => loss * pricePerKg);
+
         trendChart = new Chart(trendCtx, {
             type: 'line',
             data: {
@@ -1327,6 +1281,24 @@
                         backgroundColor: 'rgba(255, 99, 132, 0.1)',
                         borderWidth: 2,
                         fill: true
+                    },
+                    {
+                        label: 'Losses',
+                        data: lossesData,
+                        borderColor: 'rgba(255, 205, 86, 1)',
+                        backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Losses (Rp)',
+                        data: lossesPriceData,
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        yAxisID: 'y2'
                     }
                 ]
             },
@@ -1339,6 +1311,34 @@
                         title: {
                             display: true,
                             text: 'Weight (kg)'
+                        }
+                    },
+                    y2: {
+                        beginAtZero: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Losses (Rp)'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                if (context.dataset.label === 'Losses (Rp)') {
+                                    return context.dataset.label + ': Rp ' + context.parsed.y.toLocaleString();
+                                }
+                                return context.dataset.label + ': ' + context.parsed.y.toLocaleString();
+                            }
                         }
                     }
                 }
@@ -1586,6 +1586,49 @@
                 alert("Error loading user: " + error.message);
             });
     }
+
+    updateUserBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById('userName').value;
+        const email = document.getElementById('userEmail').value;
+        const role = document.getElementById('userRole').value;
+
+        if (!editingUserId || !name || !email || !role) {
+            alert('Please fill all required fields');
+            return;
+        }
+
+        updateUserBtn.innerHTML = '<div class="inline-block loading-spinner"></div> Updating...';
+        updateUserBtn.disabled = true;
+
+        const userData = {
+            name: name,
+            email: email,
+            role: role
+        };
+
+        db.collection('users').doc(editingUserId).update(userData)
+            .then(() => {
+                // Jika user yang diedit adalah user yang sedang login, update juga displayName di Auth
+                if (currentUser && currentUser.uid === editingUserId) {
+                    return currentUser.updateProfile({ displayName: name });
+                } else {
+                    alert('hubungi developer untuk update user');
+                }
+            })
+            .then(() => {
+                resetUserForm();
+                loadUsers();
+                updateUserBtn.innerHTML = 'Update User';
+                updateUserBtn.disabled = false;
+            })
+            .catch(error => {
+                alert(error.message);
+                updateUserBtn.innerHTML = 'Update User';
+                updateUserBtn.disabled = false;
+            });
+    });
 
     function deleteUser(userId) {
         if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
